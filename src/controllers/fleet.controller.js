@@ -35,35 +35,21 @@ module.exports = {
     },
 
     // Replace existing fleet
-    replacefleet: async (req, res, next) => {
+    updatefleet: async (req, res, next) => {
         try {
         const { fleet } = req.locals;
         const newFleet = new Fleet(req.body);
-        const ommitRole = fleet.role !== 'truck' ? 'category' : '';
+        const ommitRole = fleet.category !== 'truck' ? 'category' : '';
         const newfleetObject = omit(newFleet.toObject(), '_id', ommitRole);
         // The upsert option directs mongoDB to create a document if 
         // it not present, otherwise it updates an existing document.
-        await fleet.save(newfleetObject, { override: true, upsert: true });
-        const savedFleet = await fleet.findById(fleet._id);
+        await fleet.update(newfleetObject, { override: true, upsert: true });
+        const savedFleet = await Fleet.findById(fleet._id);
         res.json(savedFleet.transform());
         } catch (error) {
-        next(fleet.checkDuplicateEmail(error));
+        next(Fleet.checkDuplicateEmail(error));
         }
   },
-  
-    //Update existing fleet
-    updatefleet: async (req, res, next) => {
-        try{
-            const ommitRole = req.locals.fleet.role !== 'truck' ? 'category' : '';
-            const updatedfleet = omit(req.body, ommitRole);
-            const fleet = Object.assign(req.locals.fleet, updatedfleet);
-            const savedFleet = await fleet.save()
-            res.status(200).json(savedFleet.transform());          
-        } catch(error) {
-            next(fleet.checkDuplicateEmail(error));
-        }   
-    }, 
-
      // Get saved fleet list by pages
     listfleets: async (req, res, next) => {
     try {

@@ -16,24 +16,22 @@ const router = express.Router();
  */
 router.param('fleetId', controller.load);
 
-// [GET] v1/Fleets List Fleets
+// [GET] List Fleets
 router
   .route('/')
-  .get( validate(listFleets), controller.list)
-  // [POST] v1/Fleets Create Fleet
-  .post(validate(createFleet), controller.create);
+  .get( validate(listFleets), controller.listfleets)
+  // [POST] Create Fleet
+  .post(validate(createFleet), controller.createfleet);
 
-// [GET] v1/Fleets/:id Get Fleet
+// [GET] fleets/:id Get Fleet
 router
   .route('/:fleetId')
-  .get( controller.get)
+  .get( controller.getfleetById)
 
-  //[PUT] v1/Fleets/:id Replace Fleet, Replace the whole Fleet document with a new one
-  .put( validate(replaceFleet), controller.replace)
-  // [PATCH] v1/Fleets/:id Update Fleet, Update some fields of a Fleet document
-  .patch( validate(updateFleet), controller.update)
-  // [DELETE] v1/Fleets/:id Delete Fleet
-  .delete( controller.remove);
+  //[PUT] fleets/:id Replace Fleet
+  .put( validate(replaceFleet), controller.updatefleet)
+  // [PATCH] fleets/:id Update Fleet
+  .delete( controller.deletefleetById);
 
 
 module.exports = router;

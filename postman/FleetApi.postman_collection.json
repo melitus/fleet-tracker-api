@@ -1,0 +1,93 @@
+{
+	"variables": [],
+	"info": {
+		"name": "FleetApi",
+		"_postman_id": "50f0aa47-7033-5263-e90d-b9c1ce195126",
+		"description": "This api is used to track the fleet company",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all the fleets",
+			"request": {
+				"url": "http://localhost:{{mockport}}/fleets",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "This endpoints gets the fleets from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a fleet by id",
+			"request": {
+				"url": "http://localhost:{{mockport}}/fleets/5c7469edbbaf9340b6fe350e",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "This endpoints gets a fleet by id from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Save Fleets record to the databse",
+			"request": {
+				"url": "http://localhost:{{mockport}}/fleets",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"melitus@gmail.com\",\n\t\"password\": \"Sunday\",\n\t\"name\":\"Aroh\",\n\t\"category\":\"car\"\n\t\n}"
+				},
+				"description": "This endpoints save the fleets to the database"
+			},
+			"response": []
+		},
+		{
+			"name": "This endpoint replace the whole Fleet document with a new one",
+			"request": {
+				"url": "http://localhost:{{mockport}}/fleets/5c7469edbbaf9340b6fe350e",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"5c7469edbbaf9340b6fe350e\",\n    \"name\": \"sunday\",\n    \"password\":\"santino\",\n    \"email\": \"asmelis@gmail.com\",\n    \"category\": \"car\",\n    \"trackingnumber\": \"9ca5ff2b-11b3-4dc8-8923-c164923fff83\"\n}"
+				},
+				"description": "This endpoints replace the whole Fleet document with a new one"
+			},
+			"response": []
+		},
+		{
+			"name": "This endpoints delete a fleet by id",
+			"request": {
+				"url": "http://localhost:{{mockport}}/fleets/5c7469edbbaf9340b6fe350e",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"5c7469edbbaf9340b6fe350e\",\n    \"name\": \"sunday\",\n    \"email\": \"asmelis@gmail.com\",\n    \"category\": \"truck\",\n    \"trackingnumber\": \"9ca5ff2b-11b3-4dc8-8923-c164923fff83\"\n}"
+				},
+				"description": "This endpoints delete a fleet by id"
+			},
+			"response": []
+		}
+	]
+}

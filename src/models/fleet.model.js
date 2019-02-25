@@ -60,7 +60,7 @@ fleetSchema.pre('save', async function save(next) {
   try {
     if (!this.isModified('password')) return next();
 
-    const rounds = env === 'test' ? 1 : 10;
+    const rounds = appKey.env === 'test' ? 1 : 10;
 
     const hash = await bcrypt.hash(this.password, rounds);
     this.password = hash;

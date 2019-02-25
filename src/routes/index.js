@@ -1,7 +1,6 @@
 const express = require('express');
 const fleetRoutes = require('./fleet.route');
 
-
 const router = express.Router();
 
 /**

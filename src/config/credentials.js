@@ -25,8 +25,6 @@ module.exports = {
   appLog: {
     logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   },
-  
-  JWT_SECRET: '224b9da9083e1a2080cf1bfd34a37c44',
-};
+  };
 
 
