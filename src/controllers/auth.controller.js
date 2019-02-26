@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 
-const User = require('../models/user.model');
+const User = require('../models/fleet.model');
 const { appKey } = require("../config/credentials");
 
 
