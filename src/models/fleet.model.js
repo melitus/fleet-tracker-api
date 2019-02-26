@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 const { omitBy, isNil } = require('lodash');
 const bcrypt = require('bcryptjs');
-const moment = require('moment-timezone');
-const jwt = require('jwt-simple');
 const uuidv4 = require('uuid/v4');
 
 const APIError = require('../utils/APIError');
@@ -84,15 +82,6 @@ fleetSchema.method({
     });
 
     return transformed;
-  },
-
-  token() {
-    const playload = {
-      exp: moment().add(appKey.jwtExpirationInterval, 'minutes').unix(),
-      iat: moment().unix(),
-      sub: this._id,
-    };
-    return jwt.encode(playload, appKey.jwtSecret);
   },
 
   async passwordMatches(password) {
