@@ -3,6 +3,8 @@ const httpStatus = require('http-status');
 const { omitBy, isNil } = require('lodash');
 const bcrypt = require('bcryptjs');
 const uuidv4 = require('uuid/v4');
+const moment = require('moment-timezone');
+const jwt = require('jwt-simple');
 
 const APIError = require('../utils/APIError');
 const { appKey } = require("../config/credentials");
@@ -46,8 +48,6 @@ const fleetSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-
-
 /**
  * Add your
  * - pre-save hooks
@@ -84,6 +84,15 @@ fleetSchema.method({
     return transformed;
   },
 
+  token() {
+    const playload = {
+      exp: moment().add(appKey.jwtExpirationInterval, 'minutes').unix(),
+      iat: moment().unix(),
+      sub: this._id,
+    };
+    return jwt.encode(playload, appKey.jwtSecret);
+  },
+
   async passwordMatches(password) {
     return bcrypt.compare(password, this.password);
   },
@@ -94,6 +103,26 @@ fleetSchema.method({
  */
 fleetSchema.statics = {
 
+  async findAndGenerateToken(options) {
+    const { email, password } = options;
+    if (!email) throw new APIError({ message: 'An email is required to generate a token' });
+
+    const fleet = await this.findOne({ email }).exec();
+    const err = {
+      status: httpStatus.UNAUTHORIZED,
+      isPublic: true,
+    };
+    if (password) {
+      if (fleet && await fleet.passwordMatches(password)) {
+        return { fleet,  accessToken: fleet.token() };
+      }
+      err.message = 'Incorrect email or password';
+  } 
+    else {
+      err.message = 'Incorrect email';
+    }
+    throw new APIError(err);
+  },
   // Get Fleet
    
   async get(id) {
