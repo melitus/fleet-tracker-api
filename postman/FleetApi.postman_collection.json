@@ -21,10 +21,19 @@
 		{
 			"name": "Login a fleet ",
 			"request": {
-				"url": "http://localhost:{{mockport}}/auth/register",
+				"url": "http://localhost:{{mockport}}/auth/login",
 				"method": "POST",
-				"header": [],
-				"body": {},
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"asmelitus@gmail.com\",\n\t\"password\":\"santino\"\n}"
+				},
 				"description": "This endpoints login a fleet to the database"
 			},
 			"response": []

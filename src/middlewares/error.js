@@ -4,7 +4,6 @@ const expressValidation = require('express-validation');
 const APIError = require('../utils/APIError');
 const { appKey } = require('../config/credentials');
 
-
 // Error handler. Send stacktrace only during development
  
 const handler = (err, req, res, next) => {

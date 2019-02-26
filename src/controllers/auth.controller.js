@@ -4,7 +4,6 @@ const moment = require('moment-timezone');
 const Fleet = require('../models/fleet.model');
 const { appKey } = require("../config/credentials");
 
-
 //Returns a formated object with tokens
 
 function generateTokenResponse(fleet, accessToken) {

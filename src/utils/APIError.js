@@ -14,22 +14,13 @@ class ExtendableError extends Error {
     this.status = status;
     this.isPublic = isPublic;
     this.isOperational = true; // This is required since bluebird 4 doesn't append it anymore.
-    this.stack = stack;
-    // Error.captureStackTrace(this, this.constructor.name);
+    this.stack = stack;       // Error.captureStackTrace(this, this.constructor.name);
   }
 }
 
-/**
- * Class representing an API error.
- * @extends ExtendableError
- */
+// Class representing an API error.
+ 
 class APIError extends ExtendableError {
-  /**
-   * Creates an API error.
-   * @param {string} message - Error message.
-   * @param {number} status - HTTP status code of error.
-   * @param {boolean} isPublic - Whether the message should be visible to customer or not.
-   */
   constructor({
     message,
     errors,

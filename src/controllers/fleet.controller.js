@@ -4,7 +4,6 @@ const { omit } = require('lodash');
 const Fleet = require('../models/fleet.model');
 const { handler: errorHandler } = require('../middlewares/error');
 
-
 module.exports = {
     // Load fleet and append to req.
     load: async (req, res, next, id) => {

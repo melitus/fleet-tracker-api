@@ -6,9 +6,6 @@ const {
   login,
   register,
 } = require('../validations/auth.validation');
-const {
-  requireSignIn,
-} = require('../middlewares/auth');
 
 const router = express.Router();
 
