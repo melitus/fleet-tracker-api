@@ -1,6 +1,5 @@
 const express = require('express');
 const fleetRoutes = require('./fleet.route');
-const authRoutes = require('./auth.route');
 
 const router = express.Router();
 
@@ -10,6 +9,5 @@ const router = express.Router();
 router.get('/status', (req, res) => res.send('OK'));
 
 router.use('/fleets', fleetRoutes);
-router.use('/auth', authRoutes);
 
 module.exports = router;

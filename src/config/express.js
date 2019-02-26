@@ -3,7 +3,7 @@ const passport = require('passport');
 
 const routes = require('../routes/index');
 const middlewaresConfig = require('../middlewares/middlewaresConfig');
-//const strategies = require('./passport');
+const strategies = require('./passport');
 const error = require('../middlewares/error');
 
 // Express instance/
@@ -20,7 +20,7 @@ middlewaresConfig(app);
 
 // enable authentication
 app.use(passport.initialize());
-//passport.use('jwt', strategies.jwt);
+passport.use('jwt', strategies.jwt);
 
 // mount api routes
 app.use('/', routes);
