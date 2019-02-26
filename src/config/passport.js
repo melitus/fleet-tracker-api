@@ -3,7 +3,7 @@ const { ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local');
 
 const { appKey } = require("../config/credentials");
-const User = require('../models/user.model');
+const User = require('../models/fleet.model');
 
 // Setup options for JWT strategy
 const jwtOptions = {
