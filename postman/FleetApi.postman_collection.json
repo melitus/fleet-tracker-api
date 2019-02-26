@@ -8,18 +8,27 @@
 	},
 	"item": [
 		{
-			"name": "Register a fleet",
+			"name": "Register a user",
 			"request": {
 				"url": "http://localhost:{{mockport}}/auth/register",
 				"method": "POST",
-				"header": [],
-				"body": {},
-				"description": "This endpoints register a fleet to the database"
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\":\"asmelitus@gmail.com\",\n  \"password\":\"santino\",\n  \"role\":\"admin\"\n  \n}"
+				},
+				"description": "This endpoints register a user to the database"
 			},
 			"response": []
 		},
 		{
-			"name": "Login a fleet ",
+			"name": "Login a user",
 			"request": {
 				"url": "http://localhost:{{mockport}}/auth/login",
 				"method": "POST",
@@ -34,7 +43,7 @@
 					"mode": "raw",
 					"raw": "{\n\t\"email\":\"asmelitus@gmail.com\",\n\t\"password\":\"santino\"\n}"
 				},
-				"description": "This endpoints login a fleet to the database"
+				"description": "This endpoints login a user to the fleet tracking application"
 			},
 			"response": []
 		},
@@ -61,7 +70,7 @@
 			"response": []
 		},
 		{
-			"name": "Save Fleets record to the databse",
+			"name": "Create Fleets record to the databse",
 			"request": {
 				"url": "http://localhost:{{mockport}}/fleets",
 				"method": "POST",
@@ -73,13 +82,13 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTExODczNzcsImlhdCI6MTU1MTE4NjQ3Nywic3ViIjoiNWM3NTM4ZGNiZTM4MWQxZGNhZGIyODkxIn0.ZDLpTJXBQnI6PT3B-lCYscNvsq2MWTohb8Gi2QGZ1-c",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NTEyMTMyMDgsImlhdCI6MTU1MTIxMjMwOCwic3ViIjoiNWM3NTkyYTJkMGMxOTAxN2EyZjIwZGE4In0.rDhtMQpkb-9T0fXqus5P3TcCcJdpg_UAMMN_sw105M4",
 						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"melitus@gmail.com\",\n\t\"password\": \"Sunday\",\n\t\"name\":\"SAntino\",\n\t\"category\":\"truck\"\n\t\n}"
+					"raw": "{\n\t\"fleetname\": \"Macpolo\",\n\t\"fleetinfo\": \"Going to Lagos\",\n\t\"contactname\":\"ABUJA\",\n\t\"longitude\":\"23.456\",\n\t\"latitude\" : \"234.25\",\n\t\"mobile\": \"08061327645\",\n\t\"category\":\"truck\"\n}\n\n "
 				},
 				"description": "This endpoints save the fleets to the database"
 			},
@@ -88,7 +97,7 @@
 		{
 			"name": "This endpoint replace the whole Fleet document with a new one",
 			"request": {
-				"url": "http://localhost:{{mockport}}/fleets/5c746a99bbaf9340b6fe350f",
+				"url": "http://localhost:{{mockport}}/fleets/5c75a01a82e4642264e61857",
 				"method": "PUT",
 				"header": [
 					{
@@ -99,7 +108,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"5c746a99bbaf9340b6fe350f\",\n    \"name\": \"sunday\",\n    \"password\":\"santino\",\n    \"email\": \"asmelis@gmail.com\",\n    \"category\": \"truck\",\n    \"trackingnumber\": \"9ca5ff2b-11b3-4dc8-8923-c164923fff83\"\n}"
+					"raw": "{\n    \"id\": \"5c75a01a82e4642264e61857\",\n    \"fleetname\": \"Macpolo\",\n    \"fleetinfo\": \"Going to Lagos\",\n    \"contactname\": \"LAgos\",\n    \"category\": \"truck\",\n    \"trackingnumber\": \"9ca5ff2b-11b3-4dc8-8923-c164923fff83\"\n}"
 				},
 				"description": "This endpoints replace the whole Fleet document with a new one"
 			},

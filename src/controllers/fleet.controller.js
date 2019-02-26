@@ -36,21 +36,21 @@ module.exports = {
         // . Create a new fleet
             const newfleet = req.body;
             const fleet = new Fleet(newfleet);
-            const savedFleet = await fleet.save();        
+            const savedFleet = await fleet.save(); 
             res.status(httpStatus.CREATED);
             res.json(savedFleet.transform());
         } catch (error) {
             next(Fleet.checkDuplicateEmail(error));
         }
     },
-
+    
     // Replace existing fleet
     updatefleet: async (req, res, next) => {
         try {
         const { fleet } = req.locals;
         const newFleet = new Fleet(req.body);
-        const ommitRole = fleet.category !== 'truck' ? 'category' : '';
-        const newfleetObject = omit(newFleet.toObject(), '_id', ommitRole);
+        const ommitCategory = fleet.category !== 'truck' ? 'category' : '';
+        const newfleetObject = omit(newFleet.toObject(), '_id', ommitCategory);
         // The upsert option directs mongoDB to create a document if 
         // it not present, otherwise it updates an existing document.
         await fleet.update(newfleetObject, { override: true, upsert: true });

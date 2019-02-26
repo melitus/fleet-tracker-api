@@ -5,11 +5,10 @@ const controller = require('../controllers/fleet.controller');
 const {
   listFleets,
   createFleet,
-  replaceFleet
+  updateFleet
 } = require('../validations/fleet.validation');
-
 const {
-  requireAuth,
+  requireJWT,
 } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -24,7 +23,7 @@ router
   .route('/')
   .get( validate(listFleets), controller.getAllFleets)
   // [POST] Create Fleet
-  .post(validate(createFleet), requireAuth, controller.createfleet);
+  .post(validate(createFleet), requireJWT, controller.createfleet);
 
 // [GET] fleets/:id Get Fleet
 router
@@ -32,8 +31,8 @@ router
   .get( controller.getfleetById)
 
   //[PUT] fleets/:id Replace Fleet
-  .put( validate(replaceFleet), controller.updatefleet)
-  // [PATCH] fleets/:id Update Fleet
+  .put( validate(updateFleet), controller.updatefleet)
+  // [DELETE] fleets/:id Delete Fleet
   .delete( controller.deletefleetById);
 
 

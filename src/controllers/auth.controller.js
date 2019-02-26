@@ -1,16 +1,16 @@
 const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 
-const Fleet = require('../models/fleet.model');
+const User = require('../models/user.model');
 const { appKey } = require("../config/credentials");
 
 //Returns a formated object with tokens
 
-function generateTokenResponse(fleet, accessToken) {
+function generateTokenResponse(user, accessToken) {
   const tokenType = 'Bearer';
   const expiresIn = moment().add(appKey.jwtExpirationInterval, 'minutes');
   return {
-    tokenType, accessToken, fleet, expiresIn,
+    tokenType, accessToken, user, expiresIn,
   };
 }
 
@@ -18,20 +18,20 @@ module.exports = {
 
   register: async (req, res, next) => {
     try {
-      const fleet = await (new Fleet(req.body)).save();
-      const token = generateTokenResponse(fleet, fleet.token());
+      const user = await (new User(req.body)).save();
+      const token = generateTokenResponse(user, user.token());
       res.status(httpStatus.CREATED);
-      return res.json({ token ,fleet});
+      return res.json({ token ,user});
     } catch (error) {
-      return next(Fleet.checkDuplicateEmail(error));
+      return next(User.checkDuplicateEmail(error));
     }
   },
 
   login: async (req, res, next) => {
     try {
-      const { fleet, accessToken } = await Fleet.findAndGenerateToken(req.body);
-      const token = generateTokenResponse(fleet, accessToken);
-      return res.json({ token,fleet });
+      const { user, accessToken } = await User.findAndGenerateToken(req.body);
+      const token = generateTokenResponse(user, accessToken);
+      return res.json({ token,user });
     } catch (error) {
       return next(error);
     }
