@@ -22,7 +22,7 @@ router.param('fleetId', controller.load);
 // [GET] List Fleets
 router
   .route('/')
-  .get( validate(listFleets), controller.listfleets)
+  .get( validate(listFleets), controller.getAllFleets)
   // [POST] Create Fleet
   .post(validate(createFleet), requireAuth, controller.createfleet);
 
@@ -32,7 +32,7 @@ router
   .get( controller.getfleetById)
 
   //[PUT] fleets/:id Replace Fleet
-  .put( validate(replaceFleet), requireAuth, controller.updatefleet)
+  .put( validate(replaceFleet), controller.updatefleet)
   // [PATCH] fleets/:id Update Fleet
   .delete( controller.deletefleetById);
 

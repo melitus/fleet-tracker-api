@@ -16,6 +16,17 @@ module.exports = {
           return errorHandler(error, req, res);
         }
       },
+       // Get saved fleet list by pages
+     getAllFleets: async (req, res, next) => {
+        try {
+          const fleet = await Fleet.list(req.query);
+          const transformedfleets = fleet.map(fleet => fleet.transform());
+          res.json(transformedfleets);
+        } catch (error) {
+          next(error);
+        }
+      },
+    
     /*  Get fleet req.locals creates some local variables 
         that will be available to the front-end
     */
@@ -50,17 +61,7 @@ module.exports = {
         next(Fleet.checkDuplicateEmail(error));
         }
   },
-     // Get saved fleet list by pages
-    listfleets: async (req, res, next) => {
-    try {
-      const fleet = await Fleet.list(req.query);
-      const transformedfleets = fleet.map(fleet => fleet.transform());
-      res.json(transformedfleets);
-    } catch (error) {
-      next(error);
-    }
-  },
-
+    
     deletefleetById: async (req, res, next) => {  
         try{  
         const { fleetId } = req.params;

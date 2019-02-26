@@ -127,28 +127,6 @@ fleetSchema.statics = {
     }
   },
 
-  // Find Fleet by email and tries to generate a JWT token
-   
-  async findAndGenerateToken(options) {
-    const { email, password } = options;
-    if (!email) throw new APIError({ message: 'An email is required to generate a token' });
-
-    const fleet = await this.findOne({ email }).exec();
-    const err = {
-      status: httpStatus.UNAUTHORIZED,
-      isPublic: true,
-    };
-    if (password) {
-      if (fleet && await fleet.passwordMatches(password)) {
-        return { fleet, accessToken: fleet.token() };
-      }
-      err.message = 'Incorrect email or password';
-    }  else {
-      err.message = 'Incorrect email';
-    }
-    throw new APIError(err);
-  },
-
   // List Fleets in descending order of 'createdAt' timestamp.
    
   list({
