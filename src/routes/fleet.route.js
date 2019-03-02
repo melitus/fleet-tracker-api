@@ -7,9 +7,7 @@ const {
   createFleet,
   updateFleet
 } = require('../validations/fleet.validation');
-const {
-  requireJWT,
-} = require('../middlewares/auths');
+
 const { authorize, ADMIN, LOGGED_USER } = require('../middlewares/auth');
 
 const router = express.Router();

@@ -3,6 +3,8 @@ const httpStatus = require('http-status');
 const bcrypt = require('bcryptjs');
 const moment = require('moment-timezone');
 const jwt = require('jwt-simple');
+const uniqueValidator = require("mongoose-unique-validator");
+const uuidv4 = require('uuid/v4');
 
 const APIError = require('../utils/APIError');
 const { appKey } = require("../config/credentials");
@@ -18,7 +20,6 @@ const userSchema = new mongoose.Schema({
     match: /^\S+@\S+\.\S+$/,
     unique: true, 
     required: true,
-    index: true,
     trim: true,
     lowercase: true,
   },
@@ -32,6 +33,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: roles,
     default: "guest"
+  },
+  uuid: {
+    type: String,
+    default: uuidv4(),
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false,
   },
 }, {
   timestamps: true,
@@ -121,5 +130,44 @@ userSchema.statics = {
     }
     return error;
   },
+  async verifyEmail(uuid) {
+    if (!uuid) throw new APIError({ message: 'No token found for verification' });
+    try {
+      const user = await this.findOneAndUpdate({ uuid }, { emailVerified: true }).exec();
+      
+      if(user) {
+        return { message: 'Thank you for verification' }
+      }
+      throw new APIError({
+        message: 'User does not exist',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch(err) {
+      throw new APIError(err);
+    }
+  },
+
+  async FindOneAndUpdate(query, update) {
+    try {
+      const user = await this.findOneAndUpdate(query, update).exec();
+      if(user) {
+        return user
+      }
+
+      throw new APIError({
+        message: 'User does not exist',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch(err) {
+      throw new APIError({
+        message: 'User does not exist',
+        status: httpStatus.BAD_REQUEST,
+      });
+    }
+  },
 };
+const self = this;
+
+userSchema.plugin(uniqueValidator, { message: `${self.email} already exist` });
+
 module.exports = mongoose.model('user', userSchema);

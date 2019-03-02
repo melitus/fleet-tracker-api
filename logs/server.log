@@ -33,3 +33,5 @@
 {"message":"Mongoose disconnected through nodemon restart","level":"info"}
 {"message":"server started on port 4001 (development)","level":"info"}
 {"message":"Mongoose successfully connected to database URL: mongodb://melitus:password123@ds351455.mlab.com:51455/fleetapi","level":"info"}
+{"message":"Mongoose connection lost...","level":"info"}
+{"message":"Mongoose disconnected through nodemon restart","level":"info"}

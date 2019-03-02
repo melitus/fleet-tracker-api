@@ -5,7 +5,6 @@ const routes = require('../routes/index');
 const middlewaresConfig = require('../middlewares/middlewaresConfig');
 const strategies = require('./passport');
 const error = require('../middlewares/error');
-const logger = require('./logger');
 
 
 // Express instance/
@@ -26,8 +25,6 @@ passport.use('jwt', strategies.jwt);
 
 // mount api routes
 app.use('/', routes);
-
-//app.use(logger.sendResponse);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);
