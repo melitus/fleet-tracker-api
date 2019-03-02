@@ -9,6 +9,15 @@ require('dotenv-safe').load({
 });
 
 module.exports = {
+  email: {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.MAIL_USER, 
+      pass: process.env.MAIL_PASS 
+    }
+  },
   appKey: {
     name: process.env.APP_NAME,
     port: process.env.APP_PORT || 8000,

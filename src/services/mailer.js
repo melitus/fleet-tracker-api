@@ -1,6 +1,7 @@
 const winston = require('winston');
 const nodemailer = require('nodemailer');
 const smtpTransport = require('nodemailer-smtp-transport');
+
 const  credential = require("../config/credentials")
 
 const smtpFromEmailConfig = credential.email;
