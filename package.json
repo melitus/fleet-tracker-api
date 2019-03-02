@@ -5,8 +5,8 @@
   "main": "src/server/index.js",
   "scripts": {
     "dev": "nodemon ./src/server/index.js",
-    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 120000 --recursive src/tests",
-    "test:integration": "cross-env NODE_ENV=test mocha --timeout 120000 src/tests/integration",
+    "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --timeout 20000 --recursive src/tests",
+    "test:integration": "cross-env NODE_ENV=test mocha --timeout 20000 src/tests/integration",
     "test:watch": "cross-env NODE_ENV=test mocha --watch src/tests/unit",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "postcoverage": "opn coverage/lcov-report/index.html"

@@ -9,7 +9,8 @@ const {
 } = require('../validations/fleet.validation');
 const {
   requireJWT,
-} = require('../middlewares/auth');
+} = require('../middlewares/auths');
+const { authorize, ADMIN, LOGGED_USER } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ router
   .route('/')
   .get( validate(listFleets), controller.getAllFleets)
   // [POST] Create Fleet
-  .post(validate(createFleet), requireJWT, controller.createfleet);
+  .post(validate(createFleet),authorize(ADMIN), controller.createfleet);
 
 // [GET] fleets/:id Get Fleet
 router

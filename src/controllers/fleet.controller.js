@@ -40,7 +40,9 @@ module.exports = {
             res.status(httpStatus.CREATED);
             res.json(savedFleet.transform());
         } catch (error) {
-            next(Fleet.checkDuplicateEmail(error));
+            next(error);
+           // return res.status(400).json(error);
+
         }
     },
     
@@ -60,7 +62,7 @@ module.exports = {
         next(Fleet.checkDuplicateEmail(error));
         }
   },
-    
+
     deletefleetById: async (req, res, next) => {  
         try{  
         const { fleetId } = req.params;

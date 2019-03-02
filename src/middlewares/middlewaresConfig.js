@@ -17,7 +17,7 @@ const limiter = rateLimit({
 module.exports = app => {
   app.enable("trust proxy"); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(bodyParser.json()); // parse body params and attach them to req.body
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(morgan(appLog.logs));  // request logging. dev: console | production: file
   app.use(compress());  // Send all responses as gzip
   app.use(methodOverride()); // lets you use HTTP verbs such as PUT or DELETE in places where the client doesn't support it
