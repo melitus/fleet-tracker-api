@@ -17,4 +17,11 @@ module.exports = {
       password: Joi.string().required().max(128),
     },
   },
+  // POST /v1/auth/facebook
+  // POST /v1/auth/google
+  oAuth: {
+    body: {
+      access_token: Joi.string().required(),
+    },
+  },
 };

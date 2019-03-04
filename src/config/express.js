@@ -22,6 +22,8 @@ middlewaresConfig(app);
 // enable authentication
 app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
+passport.use('facebook', strategies.facebook);
+passport.use('google', strategies.google);
 
 // mount api routes
 app.use('/', routes);
