@@ -34,11 +34,22 @@ const userSchema = new mongoose.Schema({
     enum: roles,
     default: "guest"
   },
+  mobile: {
+    type: String,
+    trim: true,
+  },
   uuid: {
     type: String,
     default: uuidv4(),
   },
+  otp: {
+    type: Number,
+  },
   emailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  mobileVerified: {
     type: Boolean,
     default: false,
   },
@@ -157,6 +168,22 @@ userSchema.statics = {
     }
   },
 
+  async verifyMobileOtp(email, otp) {
+    if(!email || !otp) throw new APIError({ message: 'Can not verify otp due to insufficient information', status: httpStatus.BAD_REQUEST });
+
+    try {
+      const user = await this.findOne({ email, otp }).exec();
+      if(user) {
+        return { message: 'OTP verified' };
+      }
+      throw new APIError({
+        message: 'OTP did not match',
+        status: httpStatus.NOT_FOUND,
+      });
+    } catch(err) {
+      throw new APIError(err);
+    }
+  },
   async FindOneAndUpdate(query, update) {
     try {
       const user = await this.findOneAndUpdate(query, update).exec();
