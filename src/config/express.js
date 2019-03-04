@@ -4,7 +4,9 @@ const passport = require('passport');
 const routes = require('../routes/index');
 const middlewaresConfig = require('../middlewares/middlewaresConfig');
 const strategies = require('./passport');
+const toobusy = require('../middlewares/toobusy');
 const error = require('../middlewares/error');
+const addSecurityMiddleware = require('../middlewares/security');
 
 
 // Express instance/
@@ -16,8 +18,15 @@ app.use(express.json({ limit: '300kb' }));
 // Trust the now proxy
 app.set('trust proxy', true);
 
+// Return the request if the server is too busy
+app.use(toobusy);
+
 // Middlewares
 middlewaresConfig(app);
+
+// Security middleware.
+addSecurityMiddleware(app, { enableNonce: false, enableCSP: false });
+
 
 // enable authentication
 app.use(passport.initialize());
