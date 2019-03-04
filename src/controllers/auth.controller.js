@@ -41,5 +41,16 @@ module.exports = {
     } catch (error) {
       return next(error);
     }
-  }
+  },
+  oAuth: async (req, res, next) => {
+    try {
+      const { user } = req;
+      const accessToken = user.token();
+      const token = generateTokenResponse(user, accessToken);
+      const userTransformed = user.transform();
+      return res.json({ token, user: userTransformed });
+    } catch (error) {
+      return next(error);
+    }
+  },
 };
