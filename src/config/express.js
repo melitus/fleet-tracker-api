@@ -8,7 +8,6 @@ const toobusy = require('../middlewares/toobusy');
 const error = require('../middlewares/error');
 const addSecurityMiddleware = require('../middlewares/security');
 
-
 // Express instance/
 const app = express();
 
@@ -26,7 +25,6 @@ middlewaresConfig(app);
 
 // Security middleware.
 addSecurityMiddleware(app, { enableNonce: false, enableCSP: false });
-
 
 // enable authentication
 app.use(passport.initialize());

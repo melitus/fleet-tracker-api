@@ -8,6 +8,7 @@ const router = express.Router();
 router.route('/email/:uuid')
   .get(controller.verifyUserEmail);
 
+// verify/otp Verify OTP
 router.route('/otp')
   .post(controller.verifyMobileOtp);
 

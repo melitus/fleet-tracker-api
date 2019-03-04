@@ -10,7 +10,7 @@ const APIError = require('../utils/APIError');
 const { appKey } = require("../config/credentials");
 
 // User Roles
-const roles = ["guest", "admin"];
+const roles = ["user", "admin"];
 
 // User Schema
  
@@ -29,10 +29,24 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 128,
   },
+  name: {
+    type: String,
+    maxlength: 128,
+    index: true,
+    trim: true,
+  },
+  services: {
+    facebook: String,
+    google: String,
+  },
   role: {
     type: String,
     enum: roles,
-    default: "guest"
+    default: 'user',
+  },
+  picture: {
+    type: String,
+    trim: true,
   },
   mobile: {
     type: String,
@@ -151,6 +165,37 @@ userSchema.statics = {
     }
     return error;
   },
+
+  async oAuthLogin({
+    service,
+    id,
+    email,
+    name,
+    picture,
+  }) {
+    const user = await this.findOne({
+      $or: [{
+        [`services.${service}`]: id
+      }, { email }]
+    });
+    if (user) {
+      user.services[service] = id;
+      if (!user.name) user.name = name;
+      if (!user.picture) user.picture = picture;
+      return user.save();
+    }
+    const password = uuidv4();
+    return this.create({
+      services: {
+        [service]: id
+      },
+      email,
+      password,
+      name,
+      picture,
+    });
+  },
+
   async verifyEmail(uuid) {
     if (!uuid) throw new APIError({ message: 'No token found for verification' });
     try {
