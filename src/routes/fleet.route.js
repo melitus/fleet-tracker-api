@@ -27,7 +27,7 @@ router
 // [GET] fleets/:id Get Fleet
 router
   .route('/:fleetId')
-  .get( controller.getfleetById)
+  .get( controller.getOneFleet)
 
   //[PUT] fleets/:id Replace Fleet
   .put( validate(updateFleet), controller.updatefleet)

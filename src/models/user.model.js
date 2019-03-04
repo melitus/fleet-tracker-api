@@ -99,7 +99,7 @@ userSchema.method({
 
   transform() {
     const transformed = {};
-    const fields = ['id', 'email', 'role', 'emailVerified'];
+    const fields = ['id', 'name', 'email', 'picture', 'role', 'createdAt'];
 
     fields.forEach((field) => {
       transformed[field] = this[field];

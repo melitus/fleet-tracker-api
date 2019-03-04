@@ -42,6 +42,7 @@ module.exports = {
       return next(err);
     }
   },
+  
   verifyMobileOtp: async (req, res, next) => {
     const { email, otp } = req.body;
     try {

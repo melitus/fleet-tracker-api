@@ -29,8 +29,8 @@ module.exports = {
     /*  Get fleet req.locals creates some local variables 
         that will be available to the front-end
     */
-    getfleetById: (req, res) => res.json(req.locals.fleet.transform()),
-
+    getOneFleet: (req, res) => res.json(req.locals.fleet.transform()),
+    
     createfleet: async (req, res, next) => {
         try{
         // . Create a new fleet
