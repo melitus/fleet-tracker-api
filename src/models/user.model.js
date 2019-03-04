@@ -72,6 +72,16 @@ userSchema.pre('save', async function save(next) {
  */
 userSchema.method({
 
+  transform() {
+    const transformed = {};
+    const fields = ['id', 'email', 'role', 'emailVerified'];
+
+    fields.forEach((field) => {
+      transformed[field] = this[field];
+    });
+
+    return transformed;
+  },
   token() {
     const playload = {
       exp: moment().add(appKey.jwtExpirationInterval, 'minutes').unix(),

@@ -1,6 +1,5 @@
 const winston = require('winston');
 const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
 
 const  credential = require("../config/credentials")
 
@@ -18,7 +17,7 @@ const sendMail = (smtp, message) => {
 			reject('Invalid email address');
 			return;
 		}
-		const transporter = nodemailer.createTransport(smtpTransport(smtp));
+		const transporter = nodemailer.createTransport(smtp);
 		transporter.sendMail(message, (err, info) => {
 			if (err) {
 				reject(err);

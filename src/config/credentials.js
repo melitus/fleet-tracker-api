@@ -16,6 +16,9 @@ module.exports = {
     auth: {
       user: process.env.MAIL_USER, 
       pass: process.env.MAIL_PASS 
+    },
+    tls: {
+      rejectUnauthorized: false
     }
   },
   appKey: {
@@ -34,6 +37,8 @@ module.exports = {
   appLog: {
     logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   },
+  sendVerificationMail: true,
+  sendVerificationSms: true
   };
 
 

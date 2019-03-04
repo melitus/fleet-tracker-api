@@ -2,7 +2,8 @@ const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 
 const User = require('../models/user.model');
-const { appKey } = require("../config/credentials");
+const { appKey, sendVerificationMail} = require("../config/credentials");
+const { sendVerificationEmail } = require('./verification.controller');
 
 //Returns a formated object with tokens
 
@@ -19,9 +20,13 @@ module.exports = {
   register: async (req, res, next) => {
     try {
       const user = await (new User(req.body)).save();
+      const userTransformed = user.transform();
       const token = generateTokenResponse(user, user.token());
       res.status(httpStatus.CREATED);
-      return res.json({ token ,user});
+      if(sendVerificationMail) {
+       sendVerificationEmail(user.uuid, { to: userTransformed.email });
+      }
+      return res.json({ token, user: userTransformed});
     } catch (error) {
       return next(User.checkDuplicateEmail(error));
     }
@@ -31,7 +36,8 @@ module.exports = {
     try {
       const { user, accessToken } = await User.findAndGenerateToken(req.body);
       const token = generateTokenResponse(user, accessToken);
-      return res.json({ token,user });
+      const userTransformed = user.transform();
+      return res.json({ token, user: userTransformed  });
     } catch (error) {
       return next(error);
     }
