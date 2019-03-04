@@ -22,7 +22,7 @@ const jwt = async (payload, done) => {
     //Pass the user details to the next middleware
     return done(null, user);
   } catch (error) {
-    return done(error, false);
+    return done(error.message, false);
   }
 };
 
