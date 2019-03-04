@@ -21,13 +21,6 @@ const __mailerOptions = (hash, options) => {
 
   return mailOptions;
 }
-// let mailOptions = {
-//     from: '"KB 👻" <test@kb.com>', // sender address
-//     to: 'melitus.aroh@gmail.com', // list of receivers
-//     subject: 'Node Contact Request', // Subject line
-//     text: 'Hello world?', // plain text body
-//     html: `<p>welcomee</p>` // html body
-// };
 module.exports = {
 
   sendVerificationEmail: (hash, options, next) => {
@@ -51,46 +44,4 @@ module.exports = {
   },
 };
 
-// app.post('/send', (req, res) => {
-//   const { name, address, subject, text } = req.body;
-//   let mailOptions = {
-//     from: `${name} <${address}>`,
-//     to: 'sereymorm@gmail.com',
-//     subject: subject,
-//     text: `Message from: ${address}, ${text}`, 
-//   };
-//   transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//           res.send(error);
-//       }
-//       res.send(`Successfully sent mail`);
-//   });
-// });
-// // Mail configuration
-// let transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'some-email@gmail.com',
-//     pass: 'email-password-here'
-//   }
-// })
-
-// const nodemailer = require('nodemailer');
-// let transporter = nodemailer.createTransport({
-//     host: 'mail.domain.com',
-//     port: 25,
-//     secure: false,
-//     auth: {
-//         user: 'username@domain.com',
-//         pass: 'password'
-//     },
-//     tls: { rejectUnauthorized: false }
-// });
-// transporter.verify(function (error, success) {
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         console.log('Server is ready to take our messages');
-//     }
-// });
 

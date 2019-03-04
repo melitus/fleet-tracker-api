@@ -1,7 +1,7 @@
 const winston = require('winston');
 const nodemailer = require('nodemailer');
 
-const  credential = require("../config/credentials")
+const credential = require("../config/credentials")
 
 const smtpFromEmailConfig = credential.email;
 
@@ -11,7 +11,7 @@ const getSmtp = () => {
 	return smtp;
 };
 
-const sendMail = (smtp, message) => {    
+const sendMail = (smtp, message) => {
 	return new Promise((resolve, reject) => {
 		if (!message.to.includes('@')) {
 			reject('Invalid email address');
