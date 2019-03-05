@@ -1,5 +1,5 @@
 module.exports = {
-	baseUrl: 'http://localhost:4001',
-	verifyEmail: '/verify/email',
-	logoUrl: 'https://www.lipchain.io/assets/content-image/logomain.png',
+  baseUrl: 'http://localhost:4001',
+  verifyEmail: '/verify/email',
+  logoUrl: 'http://go.mailjet.com/tplimg/mtrq/b/ox8s/mg1rw.png'
 };
