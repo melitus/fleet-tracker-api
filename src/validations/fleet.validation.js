@@ -19,7 +19,6 @@ module.exports = {
     body: {
       fleetname: Joi.string(),
       fleetinfo: Joi.string(),
-      // category: Joi.string().valid(Fleet.categories),
     },
   },
 
@@ -28,7 +27,6 @@ module.exports = {
     body: {
       leetname: Joi.string(),
       fleetinfo: Joi.string(),
-      // category: Joi.string().valid(Fleet.categories),
     },
     params: {
       fleetId: Joi.string().regex(/^[a-fA-F0-9]{24}$/).required(),
