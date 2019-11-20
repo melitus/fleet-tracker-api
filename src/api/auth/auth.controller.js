@@ -1,9 +1,9 @@
 const httpStatus = require('http-status');
 const moment = require('moment-timezone');
 
-const User = require('../models/user.model');
-const { appKey, sendVerificationMail} = require("../config/credentials");
-const { sendVerificationEmail } = require('./verification.controller');
+const User = require('../../models/user.model');
+const { appKey, sendVerificationMail} = require("../../config/credentials");
+const { sendVerificationEmail } = require('../../controllers/verification.controller');
 
 //Returns a formated object with tokens
 

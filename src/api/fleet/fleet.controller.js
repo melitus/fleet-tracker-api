@@ -1,8 +1,8 @@
 const httpStatus = require('http-status');
 const { omit } = require('lodash');
 
-const Fleet = require('../models/fleet.model');
-const { handler: errorHandler } = require('../middlewares/error');
+const Fleet = require('./fleet.model');
+const { handler: errorHandler } = require('../../middlewares/error');
 
 module.exports = {
     // Load fleet and append to req.
