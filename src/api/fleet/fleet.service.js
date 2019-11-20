@@ -3,11 +3,7 @@ import * as mongoose from 'mongoose'
 
 import FleetModel from './fleet.model'
 
-export let ObjectId = mongoose.Schema.Types.ObjectId
-export let Mixed = mongoose.Schema.Types.Mixed
-
-// Load brand and append to req.
-const getSingleFleet = async fleetId => {
+export const getSingleFleet = async fleetId => {
   if (!mongoose.Types.ObjectId.isValid(fleetId)) {
     return Promise.reject('Invalid identifier')
   }
@@ -15,7 +11,7 @@ const getSingleFleet = async fleetId => {
   return fleet
 }
 
-const getFleets = async (params) => {
+export const getFleets = async (params) => {
   let pageNumber = parseInt(params.pagenumber)
   const pageSize = parseInt(params.pagesize)
   const searchQuery = {}
@@ -25,7 +21,7 @@ const getFleets = async (params) => {
     .limit(pageSize)
     .skip((pageNumber - 1) * pageSize)
     .exec()
-  const fleetCount = await brandsCount()
+  const fleetCount = await fleetsCount()
   const results = {
     allFleets: fleets,
     totalFleets: fleetCount

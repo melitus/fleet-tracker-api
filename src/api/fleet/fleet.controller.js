@@ -1,82 +1,77 @@
-const httpStatus = require('http-status');
-const { omit } = require('lodash');
-
-const Fleet = require('./fleet.model');
-const { handler: errorHandler } = require('../../middlewares/error');
+import FleetService from './fleet.service'
+const {
+  onFailure,
+  onSuccess,
+  onCreated,
+  onNotFoundError,
+  generateHATEOASLink
+} = require('../../manager/responseManager')
+const message = require('../../messages/messages')
 
 module.exports = {
-    // Load fleet and append to req.
-    load: async (req, res, next, id) => {
-        try {
-          const fleet = await Fleet.get(id);
-          req.locals = { fleet };
-          return next();
-        } catch (error) {
-          return errorHandler(error, req, res);
-        }
-      },
-       // Get saved fleet list by pages
-     getAllFleets: async (req, res, next) => {
-        try {
-          const fleet = await Fleet.list(req.query);
-          const transformedfleets = fleet.map(fleet => fleet.transform());
-          res.json(transformedfleets);
-        } catch (error) {
-          next(error);
-        }
-      },
-    
-    /*  Get fleet req.locals creates some local variables 
-        that will be available to the front-end
-    */
-    getOneFleet: (req, res) => res.json(req.locals.fleet.transform()),
-    
-    createfleet: async (req, res, next) => {
-        try{
-        // . Create a new fleet
-            const newfleet = req.body;
-            const fleet = new Fleet(newfleet);
-            const savedFleet = await fleet.save(); 
-            res.status(httpStatus.CREATED);
-            res.json(savedFleet.transform());
-        } catch (error) {
-            next(error);
-           // return res.status(400).json(error);
-
-        }
-    },
-    
-    // Replace existing fleet
-    updatefleet: async (req, res, next) => {
-        try {
-        const { fleet } = req.locals;
-        const newFleet = new Fleet(req.body);
-        const ommitCategory = fleet.category !== 'truck' ? 'category' : '';
-        const newfleetObject = omit(newFleet.toObject(), '_id', ommitCategory);
-        // The upsert option directs mongoDB to create a document if 
-        // it not present, otherwise it updates an existing document.
-        await fleet.update(newfleetObject, { override: true, upsert: true });
-        const savedFleet = await Fleet.findById(fleet._id);
-        res.json(savedFleet.transform());
-        } catch (error) {
-        next(Fleet.checkDuplicateEmail(error));
-        }
+  fleetByID: async (req, res, next) => {
+    try {
+      const { fleetId } = req.params
+      const fleet = await FleetService.getSinglefleet(fleetId)
+      req.fleet = fleet
+      return next()
+    } catch (error) {
+      onFailure(res, error, message.fleet_get_failure)
+    }
+  },
+  getSinglefleet: (req, res) => {
+    const fleet = req.fleet
+    let hateosLinks = [generateHATEOASLink(req.baseUrl, 'GET', 'fleet')]
+    onSuccess(res, fleet, message.fleet_get_success, hateosLinks)
   },
 
-    deletefleetById: async (req, res, next) => {  
-        try{  
-        const { fleetId } = req.params;
-        // get a fleet
-        const fleet = await Fleet.findById(fleetId);
-        if (!fleet) {
-            res.status(404).json({error: 'fleet does not exist'});
-        }
-        // remove the fleet
-        await fleet.remove();
-        res.status(200).json({ message: 'fleet successfully deleted' });
+  getAllfleets: async (req, res, next) => {
+    try {
+      let query = req.query
+      const results = await FleetService.getfleets(query)
+      onSuccess(res, results, message.fleet_getAll_success)
     } catch (error) {
-       next(error);
-    }  
-}
-}
+      onFailure(res, error, message.fleet_getAll_failure)
+    }
+  },
 
+  addfleet: async (req, res, next) => {
+    try {
+      const incommingfleetData = req.body
+      const savedfleet = await FleetService.addfleet(incommingfleetData)
+      onCreated(res, savedfleet, message.fleet_create_success)
+    } catch (error) {
+      onFailure(res, error, message.fleet_create_failure)
+    }
+  },
+
+  updatefleet: async (req, res, next) => {
+    try {
+      const { fleetId } = req.params
+      const incommingfleetData = req.body
+      const updatedfleet = await FleetService.updatefleet(
+        fleetId,
+        incommingfleetData
+      )
+      if (!updatedfleet) {
+        onNotFoundError(res, message.fleet_not_exist)
+      }
+      onSuccess(res, updatedfleet, message.fleet_update_success)
+    } catch (error) {
+      onFailure(res, error, message.fleet_update_failure)
+    }
+  },
+
+  deletefleets: async (req, res, next) => {
+    try {
+      const { fleetId } = req.params
+      const deletedfleet = await FleetService.deletefleet(fleetId)
+      if (!deletedfleet) {
+        onNotFoundError(res, message.fleet_not_exist)
+      }
+      onSuccess(res, deletedfleet, message.fleet_delete_success)
+    } catch (error) {
+      onFailure(res, error, message.fleet_delete_failure)
+    }
+  }
+}
