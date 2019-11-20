@@ -57,7 +57,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
       onFailure(res, error, message.invalid_credentials)
     }
   }
-  export const resendEmail = async  (req: Request, res: Response):Promise<Response> => {
+  export const resendEmail = async  (req, res) => {
     try {
       const { email } = req.body
       const savedUser = await UserService.resendEmail(email)
@@ -69,7 +69,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const getOTPCode = async  (req: Request, res: Response):Promise<Response> => {
+  export const getOTPCode = async  (req, res)=> {
     try {
       const data = req.body
       const response = await UserService.getOTPCode(data)
@@ -81,7 +81,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const verifyOTPCode = async  (req: Request, res: Response):Promise<Response> => {
+  export const verifyOTPCode = async  (req, res) => {
     try {
       const otpCode = req.body.otp
       let verifyMsg = ''
@@ -104,7 +104,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const getOTPTimeUsed =  (req: Request, res: Response) => {
+  export const getOTPTimeUsed =  (req, res) => {
     try {
       const otpTimeUsed = UserService.getOTPTimeUsed()
       let response = { success: true, otpTimeUsed: otpTimeUsed }
@@ -114,7 +114,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
- export const getOTPTimeRemaining = (req: Request, res: Response) => {
+ export const getOTPTimeRemaining = (req, res) => {
     try {
       const otpTimeRemaining = UserService.getOTPTimeUsed()
       let response = { success: true, otpTimeRemaining: otpTimeRemaining }
@@ -124,7 +124,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const oAuth = async  (req: Request, res: Response):Promise<Response> => {
+  export const oAuth = async  (req, res) => {
     try {
       const response = await UserService.oAuth(req)
       onSuccess(res, response, message.oAuth_success)
@@ -133,7 +133,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const refresh = async (req: Request, res: Response):Promise<Response> => {
+  export const refresh = async (req, res) => {
     try {
       const data = req.body
       const response = await UserService.refreshToken(data)
@@ -143,7 +143,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const forgotPassword = async (req: Request, res: Response):Promise<Response> => {
+  export const forgotPassword = async (req,res) => {
     try {
       const { email } = req.body
       const data = await UserService.forgotPassword(email)
@@ -156,7 +156,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const verifyPasswordResetToken = async (req: Request, res: Response):Promise<Response> => {
+  export const verifyPasswordResetToken = async (req, res) => {
     try {
       const token = req.params.token
       const response = await UserService.verifyPasswordResetToken(token)
@@ -170,7 +170,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const resetPassword = async (req: Request, res: Response):Promise<Response> => {
+  export const resetPassword = async (req,res) => {
     try {
       const data = req.body
       const response = await UserService.resetPassword(data)
@@ -183,7 +183,7 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
     }
   }
 
-  export const changePassword = async (req: Request, res: Response) => {
+  export const changePassword = async (req,res) => {
     try {
       const data = req.body
       const response = await UserService.changePassword(data)
