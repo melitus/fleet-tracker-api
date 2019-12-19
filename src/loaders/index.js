@@ -2,7 +2,7 @@ const expressLoader = require('./expressLoader');
 const {connectMongoWithRetry} = require('./mongooseLoader')
 const loadEnv = require('./loadenv')
 
-exports.appInit = async (app) => {
+exports.appInitLoader = async (app) => {
   await loadEnv()
    await connectMongoWithRetry();
   console.log('MongoDB Intialized');
