@@ -7,6 +7,7 @@ const uuidv4 = require('uuid/v4');
 
 const APIError = require('../utils/APIError');
 const { appKey } = require("../config/credentials");
+const { generatePasswordHash} = require( '../../policies/authstrategy/authmanager')
 
 // User Roles
 const roles = ["user", "admin"];
@@ -43,10 +44,6 @@ const userSchema = new mongoose.Schema({
     enum: roles,
     default: 'user',
   },
-  picture: {
-    type: String,
-    trim: true,
-  },
   mobile: {
     type: String,
     trim: true,
@@ -80,9 +77,7 @@ userSchema.pre('save', async function save(next) {
   try {
     if (!this.isModified('password')) return next();
 
-    const rounds = appKey.env === 'test' ? 1 : 10;
-
-    const hash = await bcrypt.hash(this.password, rounds);
+    const hash = await generatePasswordHash(this.password);
     this.password = hash;
 
     return next();
@@ -113,10 +108,6 @@ userSchema.method({
       sub: this._id,
     };
     return jwt.encode(playload, appKey.jwtSecret);
-  },
-
-  async passwordMatches(password) {
-    return bcrypt.compare(password, this.password);
   },
 });
 

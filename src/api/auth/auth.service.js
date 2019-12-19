@@ -1,29 +1,11 @@
-const crypto = require( 'crypto')
-
 const User = require( '../user/user.model')
 const OTPWrapper = require( '../../services/otp/otpWrapper')
 const { sendSMS } = require( '../../services/sms/AfricasTalkingGateway')
 const { resendEmailVerification } = require( './verification.controller')
 const { dispatch }= require( '../../eventBus/eventBus')
-const { issueExpiresDate, generatePasswordHash, passwordMatches} = require( '../../policies/authstrategy/authmanager')
+const { generateTokenResponse} = require( '../../policies/authstrategy/authmanager')
 
 const RefreshToken = require( '../refreshToken/refreshToken.model')
-
-export async function generateTokenResponse(user, accessToken) {
-    const tokenType = 'Bearer'
-    const refreshToken = await RefreshToken.generate(user).token
-    return {
-      tokenType,
-      accessToken,
-      refreshToken,
-      issueExpiresDate
-    }
-  }
-  
-// this token would be sent in the link to reset forgot password
-const token = crypto.randomBytes(32).toString('hex')
-
-// Login Action
 
 exports.checkUser = async email =>{
     const user = await User.findOne({ email: email }, { password: 0, createdAt: 0, updatedAt: 0 }).exec()
