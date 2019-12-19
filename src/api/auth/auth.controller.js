@@ -1,13 +1,12 @@
-import * as UserService from './auth.service'
+const UserService = require( './auth.service')
 
-import {
+const {
   onFailure,
   onSuccess,
   onCreated,
   onNotFoundError
-} from '../../responses'
-import message from '../../messages/messages'
-import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../policies/redirects'
+} = require( '../../responses')
+const message = require( '../../messages/messages')
 const {sendVerificationMail,} = require('../../config/credentials')
 const {dispatch} = require('../../eventBus/eventBus')
   export const isUserEmailExist = async (req, res) => {
@@ -147,60 +146,3 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const forgotPassword = async (req,res) => {
-    try {
-      const { email } = req.body
-      const data = await UserService.forgotPassword(email)
-      if (!data.user) {
-        onNotFoundError(res, data.user, message.email_unavailable)
-      }
-      onSuccess(res, data, message.email_verification_sent)
-    } catch (error) {
-      onFailure(res, error, message.invalid_email)
-    }
-  }
-
-  export const verifyPasswordResetToken = async (req, res) => {
-    try {
-      const token = req.params.token
-      const response = await UserService.verifyPasswordResetToken(token)
-      if (!response) {
-        onNotFoundError(res, response, message.password_reset_invalid)
-      }
-      onSuccess(res, response, message.password_reset_success)
-      redirectToResetPasswordPage(req, res)
-    } catch (error) {
-      onFailure(res, error, message.password_reset_invalid)
-    }
-  }
-
-  export const resetPassword = async (req,res) => {
-    try {
-      const data = req.body
-      const response = await UserService.resetPassword(data)
-      if (!response) {
-        onNotFoundError(res, response, message.password_reset_invalid)
-      }
-      onSuccess(res, response, message.password_reset_success)
-    } catch (error) {
-      onFailure(res, error, message.password_reset_invalid)
-    }
-  }
-
-  export const changePassword = async (req,res) => {
-    try {
-      const data = req.body
-      const response = await UserService.changePassword(data)
-      if (!response.isUserExist) {
-        onNotFoundError(res, response, message.password_reset_invalid)
-      }
-      if (!response.isPasswordCorrect) {
-        onNotFoundError(res, response, message.password_old)
-      } else {
-        onSuccess(res, message.password_change_success)
-        redirectToUserDashboard(req, res)
-      }
-    } catch (error) {
-      onFailure(res, error, message.password_reset_invalid)
-    }
-  }
