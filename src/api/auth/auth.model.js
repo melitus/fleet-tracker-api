@@ -3,7 +3,6 @@ const httpStatus = require('http-status');
 const bcrypt = require('bcryptjs');
 const moment = require('moment-timezone');
 const jwt = require('jwt-simple');
-const uniqueValidator = require("mongoose-unique-validator");
 const uuidv4 = require('uuid/v4');
 
 const APIError = require('../utils/APIError');
@@ -147,54 +146,6 @@ userSchema.statics = {
     throw new APIError(err);
   },
 
-  // Return new validation error, if error is a mongoose duplicate key error
-   
-  checkDuplicateEmail(error) {
-    if (error.name === 'MongoError' && error.code === 11000) {
-      return new APIError({
-        message: 'Validation Error',
-        errors: [{
-          field: 'email',
-          location: 'body',
-          messages: ['"email" already exists'],
-        }],
-        status: httpStatus.CONFLICT,
-        isPublic: true,
-        stack: error.stack,
-      });
-    }
-    return error;
-  },
-
-  async oAuthLogin({
-    service,
-    id,
-    email,
-    name,
-    picture,
-  }) {
-    const user = await this.findOne({
-      $or: [{
-        [`services.${service}`]: id
-      }, { email }]
-    });
-    if (user) {
-      user.services[service] = id;
-      if (!user.name) user.name = name;
-      if (!user.picture) user.picture = picture;
-      return user.save();
-    }
-    const password = uuidv4();
-    return this.create({
-      services: {
-        [service]: id
-      },
-      email,
-      password,
-      name,
-      picture,
-    });
-  },
 
   async verifyEmail(uuid) {
     if (!uuid) throw new APIError({ message: 'No token found for verification' });
@@ -248,8 +199,5 @@ userSchema.statics = {
     }
   },
 };
-const self = this;
-
-userSchema.plugin(uniqueValidator, { message: `${self.email} already exist` });
 
 module.exports = mongoose.model('user', userSchema);

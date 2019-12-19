@@ -7,7 +7,7 @@ module.exports = ( req, res, next ) => {
   if (process.env.NODE_ENV !== 'testing' && !process.env.MONGO_URI_TESTS && toobusy()) {
     res.statusCode = 503;
     res.send(
-      'It looks like Developer-Contact-Directory api is very busy right now, please try again in a minute.'
+      'It looks like Fleet api is very busy right now, please try again in a minute.'
     );
   } else {
     next();

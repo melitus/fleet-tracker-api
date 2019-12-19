@@ -1,55 +1,60 @@
 module.exports = {
-    "mongoErrCodes": {
-        "11000": "Opps! the given info already exists"
-    },
-    "defaultSuccessObject": {
-        "responseCode": 0,
-        "responseMessage": "Successfully processed the request"
-    },
-    "defaultErrorObject": {
-        "responseCode": 1,
-        "responseMessage": "Some error occured, try again after sometime"
-    },
-    "invalidValueObject": {
-        "responseCode": 1,
-        "responseMessage": "Should be a valid %key%"
-    },
-    "invalidLogin": {
-        "statusCode": 404,
-        "message": "Invalid login credentials"
-    },
-    "unauthorized": {
-        "statusCode": 401,
-        "responseCode": 7,
-        "message": "Please login to continue"
-    },
-    "forbidden": {
-        "statusCode": 403,
-        "responseCode": 1,
-        "message": "You are not-allowed access here"
-    },
-    "systemError": {
-        "statusCode": 500,
-        "responseCode": 100,
-        "message": "System Error, please try again later"
-    },
-    "docNotFound": {
-        "statusCode": 404,
-        "responseCode": 1,
-        "message": "Document does not exist"
-    },
-    "noAuthority": {
-        "statusCode": 400,
-        "message": "Not authorized to peroform this operation"
-    },
-    "successNoContentAvailable": {
-        "statusCode": 204,
-        "message": "Content Not Available!"
-    },
-    "successButFileIsLocked": {
-        "statusCode": 204,
-        "message": "File Is Lock By #user#!",
-        "name": ""
-    }
+  // Email Response Messages
+  confirm: 'Email sent, please check your inbox to confirm',
+  confirmed: 'Your email is confirmed!',
+  resend: 'Confirmation email resent, maybe check your spam?',
+  couldNotFind: 'Could not find you!',
+  alreadyConfirmed: 'Your email was already confirmed',
+  subject:'Please verify your email',
+  text: 'Hi there!',
 
+  // Auth Management Response Messages
+  signup_sucess: 'Account created successfully',
+  signup_failure: 'Sign up unsuccessful',
+  verify_account: 'please verify your email account please',
+  login_success: 'Succesfully logged in',
+  invalid_credentials: 'Wrong email or password',
+  invalid_email: 'Invalid email',
+  email_verification_required: 'Email verification required',
+  email_verification_sent: 'Email verification sent',
+  email_unavailable: 'Email does not exist',
+  email_available: 'Email already exist',
+  invalid_token: 'Invalid token',
+  otp_success: 'otp code sent',
+  otp_failure: 'otp could not be sent',
+  otp_verify_success: 'otp code verified',
+  otp_verify_failure: 'unable to verify otp',
+  otp_time_used: 'otp time used',
+  otp_time_remaining: 'otp time remaining',
+  oAuth_success: 'oAuth success',
+  oAuth_failure: 'oAuth fail',
+  refresh_token_success: 'refresh token created',
+  refresh_token_failure: ' refresh token could be created',
+  password_change_success: 'Password successfully changed',
+  passwords_do_not_match: 'Password does not match',
+  reset_password_email_sent: 'Reset password email sent',
+  password_reset_success: 'Password reset token verified',
+  password_reset_invalid: 'Password reset token is invalid or has expired',
+  password_old: 'incorrect old password',
+  confirm: 'Email sent, please check your inbox to confirm',
+  confirmed: 'Your email is confirmed!',
+  resend_email: 'Verification email resent, maybe check your spam?',
+  resend_email_failure: 'Error resending verification email',
+  reactivate_account: 'Reactivate Account',
+  user_deactivated: 'User Succesfully deactivated',
+  error_deactivating_user: 'Error deactivating user',
+  password_mismatch: 'password and confirm password are not same.',
+
+  // fleet Response Messages
+  fleet_create_success: 'Fleet successfully created',
+  fleet_create_failure: 'Fleet could not be created',
+  fleet_get_success: 'Fleet fetched in the system',
+  fleet_get_failure: 'Error while fetching a fleet',
+  fleet_getAll_success: 'List of fleets in the system',
+  fleet_getAll_failure: 'Error while fetching fleets',
+  fleet_update_success: 'Fleet successfully updated',
+  fleet_update_failure: 'Fleet could not be updated',
+  fleet_delete_success: 'Fleet deleted successfully',
+  fleet_delete_failure: 'Fleet could not be deleted',
+  fleet_not_exist: 'Fleet does not exist',
 }

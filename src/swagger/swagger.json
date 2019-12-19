@@ -1,0 +1,486 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the API documentation for Full Stack Web Application \"Connetmi Application\". Please use the links below if you want more information.",
+    "version": "1.0.0",
+    "title": "Connetmi Multi-Store Application",
+    "contact": {
+      "email": "hello@dynamicflakes.com"
+    },
+    "license": {
+      "name": "Live Preview",
+      "url": "https://connectmiapi.herokuapp.com"
+    }
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "healthcheck",
+      "description": "Operation about health check"
+    },
+    {
+      "name": "auth",
+      "description": "Operations about authentication"
+    }
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    },
+    "basicAuth": {
+      "type": "Bearer"
+    }
+  },
+  "schemes": ["http", "https"],
+  "paths": {
+    "/healthcheck": {
+      "get": {
+        "tags": ["healthcheck"],
+        "summary": "This pings the system for health check",
+        "operationId": "ping",
+        "description": " The service will offer a status endpoint which can be accessed via a HTTP GET request. It will return a status 200 and a body message if the service is in a good state.",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/ServerInfo"
+            }
+          },
+          "default": {
+						"description": "error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+        }
+      }
+    },
+    
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login User",
+        "description": "",
+        "operationId": "login",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Return login user",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "description": "Email address",
+                  "type": "string"
+                },
+                "password": {
+                  "description": "Password",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Login",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a User",
+        "description": "",
+        "operationId": "register",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Return registered user",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New user registered",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        }
+      }
+    },
+    "/auth/emailexist": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Checking if the User's email already exists",
+        "description": "",
+        "operationId": "isUserEmailExist",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Checking if the User's email already exists",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "description": "Email address",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email"
+              ]
+            }
+    
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email already exist",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        }
+      }
+    },
+    "/auth/verifyemail/{uuid}": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Verify email link after registration",
+        "description": "",
+        "operationId": "verifyUserEmail",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "description": "Verify email link after registration",
+            "required": true,
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "int64",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }         
+           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email verified",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        }
+      }
+    },
+    "/auth/generateOtp": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "This is used to generate otp",
+        "description": "",
+        "operationId": "getOTPCode",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "This is used to generate otp",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "description": "Email address",
+                  "type": "string"
+                },
+                "phoneNo": {
+                  "description": "phoneNo",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "phoneNo"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp generated",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/verifyotp": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "This is used to verify otp",
+        "description": "",
+        "operationId": "verifyOTPCode",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "This is used to verify otp",
+            "required": true,
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "int64",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "otp": {
+                  "description": "Otp code",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "otp"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp valid",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/auth/otptimeelapsed": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "This is used to get otp time elapsed",
+        "description": "",
+        "operationId": "getOTPTimeUsed",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "This is used to get otp time elapsed",
+            "required": true,
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "int64",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp time elapsed",
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+
+    "/auth/otptimeremaining": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "This returns otp remaining time",
+        "description": "",
+        "operationId": "getOTPTimeRemaining",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "This returns otp remaining time",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Otp time remaining",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+      "ServerInfo": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "nodeVersion": {
+            "type": "string"
+          },
+          "platformInfo": {
+            "type": "string"
+          },
+          "browser": {
+            "type": "string"
+          },
+          "ip": {
+            "type": "number"
+          },
+          "country": {
+            "type": "number"
+          },
+          "uptime": {
+            "type": "number"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "status",
+          "code",
+          "message",
+          "developerMessage",
+          "moreInfo"
+        ],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "developerMessage": {
+            "type": "string"
+          },
+          "moreInfo": {
+            "type": "string"
+          }
+        }
+      },
+    
+    "Auth": {
+      "type": "object",
+      "required": [
+        "email",
+        "password",
+        "otp",
+        "phoneNo"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "role": {
+          "type": "string"
+        },
+        "phoneNo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "otp": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "GitHub",
+    "url": "https://github.com/Dynamic-Flakes/connetmi"
+  }
+}

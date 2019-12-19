@@ -1,4 +1,4 @@
-import * as UserService from './user.service'
+import * as UserService from './auth.service'
 
 import {
   onFailure,
@@ -8,9 +8,8 @@ import {
 } from '../../responses'
 import message from '../../messages/messages'
 import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../policies/redirects'
-
-
-
+const {sendVerificationMail,} = require('../../config/credentials')
+const {dispatch} = require('../../eventBus/eventBus')
   export const isUserEmailExist = async (req, res) => {
     try {
       const { email } = req.body
@@ -35,6 +34,11 @@ import {redirectToResetPasswordPage, redirectToUserDashboard} from '../../polici
         const registerUser = await UserService.register(data)
         onCreated(res, registerUser, message.signup_sucess)
       } else {
+        if (sendVerificationMail) {
+           dispatch('user_signup', savedUser.uuid, userTransformed, {
+            to: userTransformed.email
+          } )
+        }
         onSuccess(res, data.email, message.email_available)
       }
     } catch (error) {

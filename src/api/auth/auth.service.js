@@ -1,14 +1,13 @@
-import crypto from 'crypto'
+const crypto = require( 'crypto')
 
-import User from '../user/user.model'
-import OTPWrapper from '../../services/otp/otpWrapper'
-import { sendSMS } from '../../services/sms/AfricasTalkingGateway'
-import { resendEmailVerification } from './verification.controller'
-import { dispatch }from '../../eventBus/eventBus'
-import configLoader from '../../config/config'
-import { issueExpiresDate, generatePasswordHash, passwordMatches} from '../../policies/authstrategy/authmanager'
+const User = require( '../user/user.model')
+const OTPWrapper = require( '../../services/otp/otpWrapper')
+const { sendSMS } = require( '../../services/sms/AfricasTalkingGateway')
+const { resendEmailVerification } = require( './verification.controller')
+const { dispatch }= require( '../../eventBus/eventBus')
+const { issueExpiresDate, generatePasswordHash, passwordMatches} = require( '../../policies/authstrategy/authmanager')
 
-import RefreshToken from '../refreshToken/refreshToken.model'
+const RefreshToken = require( '../refreshToken/refreshToken.model')
 
 export async function generateTokenResponse(user, accessToken) {
     const tokenType = 'Bearer'
@@ -20,13 +19,9 @@ export async function generateTokenResponse(user, accessToken) {
       issueExpiresDate
     }
   }
-
-const config = configLoader.loadConfigAction()
-
+  
 // this token would be sent in the link to reset forgot password
 const token = crypto.randomBytes(32).toString('hex')
-
-
 
 // Login Action
 

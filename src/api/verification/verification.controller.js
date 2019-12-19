@@ -1,55 +1,55 @@
-const mjml2html = require('mjml');
+const sendMail = require('../../services/mail/mailer')
+const User = require('../user/user.model')
+const logger = require('../../config/logger').email
+const {
+  __mailerOptionsAcountVerification,
+} = require('../../services/mail/mailOptionsBuilder')
+const { sendSMS } = require('../../services/sms/AfricasTalkingGateway')
+const OTPWrapper = require('../../services/otp/otpWrapper')
 
-const credentials = require('../config/credentials');
-const registrationTemplate = require('../templates/email/registration');
-const client = require('../config/client');
-const sendMail = require('../services/mailer');
-const User = require('../models/user.model');
-const msgs = require('../messages/email.msgs');
-
-const __mailerOptions = (hash, options) => {
-  const companyLogo = client.logoUrl;
-  const name = 'David';
-  const verificationUrl = `${client.baseUrl}${client.verifyEmail}/${hash}`;
-  const template = registrationTemplate(companyLogo, name, verificationUrl);
-  const html = mjml2html(template);
-
-  const mailOptions = options;
-  mailOptions['html'] = html.html;
-  mailOptions['text'] = msgs.text;
-  mailOptions['from'] = credentials.email.auth.user;
-  mailOptions['subject'] = msgs.subject;
-
-  return mailOptions;
-};
 module.exports = {
-  sendVerificationEmail: (hash, options, next) => {
-    const mailerOptions = __mailerOptions(hash, options);
+  sendVerificationEmail: (hash, data, options, next) => {
+    const mailerOptions = __mailerOptionsAcountVerification(hash, data, options)
     sendMail(mailerOptions, true, (error, result) => {
       if (error) {
-        console.error(error);
+        logger.error(error)
       } else {
-        console.info(result);
+        logger.info(result)
       }
-    });
+    })
   },
+  sendOtp: async (phoneNo, email) => {
+    const otpCode = await OTPWrapper.generateOTPCode()
+    const isoPhoneNo = await OTPWrapper.getISOPhoneNo(phoneNo)
+    const smsOptions = {
+      to: [isoPhoneNo],
+      message: `Your verification code is ${otpCode}. This code expires in 3`
+    }
+    await sendSMS(smsOptions)
+    const message = await User.findOneAndUpdate(email, { otp: otpCode })
+    return message
+  },
+
   verifyUserEmail: async (req, res, next) => {
-    const { uuid } = req.params;
+    const { uuid } = req.params
     try {
-      const message = await User.verifyEmail(uuid);
-      return res.send(message);
+      logger.info({ message: uuid })
+      await User.verifyEmail(uuid)
+      let url = `https://connetmi.com/kyc/login`
+      return res.redirect(302, url)
     } catch (err) {
-      return next(err);
+      logger.error({ err })
+      return next({ err })
     }
   },
 
   verifyMobileOtp: async (req, res, next) => {
-    const { email, otp } = req.body;
+    const { otp } = req.body
     try {
-      const message = await User.verifyMobileOtp(email, otp);
-      return res.send(message);
+      const message = await User.verifyMobileOtp(otp)
+      return res.send(message)
     } catch (err) {
-      return next(err);
+      return next(err)
     }
   }
-};
+}
