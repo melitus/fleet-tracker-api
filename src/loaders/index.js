@@ -1,4 +1,4 @@
-const expressLoader = require('./expressLoader');
+const {expressLoader} = require('./expressLoader');
 const {connectMongoWithRetry} = require('./mongooseLoader')
 const loadEnv = require('./loadenv')
 

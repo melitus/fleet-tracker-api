@@ -14,7 +14,7 @@ const device =  require( 'express-device')
 const requestIp = require('request-ip')
 
 
-export default async (app ) => {
+exports.expressLoader = async (app ) => {
   logger.info('SETUP - Installing Ngmetro Webserver...')
   app.set('trust proxy', true)
 
