@@ -1,9 +1,9 @@
 const express = require('express')
 const passport = require('passport')
 
-const controller = require('./auth.controller')
-const verifyCtl = require('./verification.controller')
-const { loginSchema, registerSchema } = require('./auth.validation')
+const controller = require('./user.controller')
+const verifyCtl = require('../verification/verification.controller')
+const { loginSchema, registerSchema } = require('./user.validation')
 const { refreshSchema } = require('../refreshToken/refreshToken.validation')
 const { loginLimiter } = require('../../middlewares/ratelimit')
 const validate = require('../../middlewares/validation')

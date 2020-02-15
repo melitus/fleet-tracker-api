@@ -1,4 +1,4 @@
-const UserService = require( './auth.service')
+const UserService = require( './user.service')
 
 const {
   onFailure,
@@ -9,7 +9,8 @@ const {
 const message = require( '../../messages/messages')
 const {sendVerificationMail,} = require('../../config/credentials')
 const {dispatch} = require('../../eventBus/eventBus')
-  export const isUserEmailExist = async (req, res) => {
+
+const isUserEmailExist = async (req, res) => {
     try {
       const { email } = req.body
       req.body.email = String(req.body.email).toLowerCase(); // create a string
@@ -25,7 +26,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const register = async (req, res) => {
+  const register = async (req, res) => {
     try {
       const data = req.body
       const doesEmailExists = await UserService.isUserEmailExist(data.email)
@@ -45,7 +46,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
- export const login = async (req, res) => {
+ const login = async (req, res) => {
     try {
       const user = req.body
       const response = await UserService.login(user)
@@ -60,7 +61,7 @@ const {dispatch} = require('../../eventBus/eventBus')
       onFailure(res, error, message.invalid_credentials)
     }
   }
-  export const resendEmail = async  (req, res) => {
+  const resendEmail = async  (req, res) => {
     try {
       const { email } = req.body
       const savedUser = await UserService.resendEmail(email)
@@ -72,7 +73,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const getOTPCode = async  (req, res)=> {
+  const getOTPCode = async  (req, res)=> {
     try {
       const data = req.body
       const response = await UserService.getOTPCode(data)
@@ -84,7 +85,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const verifyOTPCode = async  (req, res) => {
+  const verifyOTPCode = async  (req, res) => {
     try {
       const otpCode = req.body.otp
       let verifyMsg = ''
@@ -107,7 +108,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const getOTPTimeUsed =  (req, res) => {
+  const getOTPTimeUsed =  (req, res) => {
     try {
       const otpTimeUsed = UserService.getOTPTimeUsed()
       let response = { success: true, otpTimeUsed: otpTimeUsed }
@@ -117,7 +118,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
- export const getOTPTimeRemaining = (req, res) => {
+ const getOTPTimeRemaining = (req, res) => {
     try {
       const otpTimeRemaining = UserService.getOTPTimeUsed()
       let response = { success: true, otpTimeRemaining: otpTimeRemaining }
@@ -127,7 +128,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const oAuth = async  (req, res) => {
+  const oAuth = async  (req, res) => {
     try {
       const response = await UserService.oAuth(req)
       onSuccess(res, response, message.oAuth_success)
@@ -136,7 +137,7 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
-  export const refresh = async (req, res) => {
+  const refresh = async (req, res) => {
     try {
       const data = req.body
       const response = await UserService.refreshToken(data)
@@ -146,3 +147,15 @@ const {dispatch} = require('../../eventBus/eventBus')
     }
   }
 
+module.exports = {
+  isUserEmailExist,
+  register,
+  login,
+  resendEmail,
+  getOTPCode,
+  verifyOTPCode,
+  getOTPTimeUsed,
+  getOTPTimeRemaining,
+  oAuth,
+  refresh
+}

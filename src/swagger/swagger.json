@@ -3,13 +3,13 @@
   "info": {
     "description": "This is the API documentation for Full Stack Web Application \"Connetmi Application\". Please use the links below if you want more information.",
     "version": "1.0.0",
-    "title": "Connetmi Multi-Store Application",
+    "title": "Fleet Api",
     "contact": {
       "email": "hello@dynamicflakes.com"
     },
     "license": {
       "name": "Live Preview",
-      "url": "https://connectmiapi.herokuapp.com"
+      "url": "fleetapi.com"
     }
   },
   "basePath": "/",
@@ -21,6 +21,10 @@
     {
       "name": "auth",
       "description": "Operations about authentication"
+    },
+    {
+      "name": "fleet",
+      "description": "Operations about Fleet operation"
     }
   ],
   "securityDefinitions": {
@@ -373,7 +377,231 @@
           }
         ]
       }
-    }
+    },
+   
+    "/fleet": {
+      "post": {
+        "tags": ["fleet"],
+        "summary": "Add fleet to the system",
+        "description": "Add user fleet in system",
+        "operationId": "createFleet",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enter fleet details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fleetname": {
+                  "description": "Enter name of the fleet",
+                  "type": "string"
+                },
+                "fleetinfo": {
+                  "description": "Enter the description of the fleet",
+                  "type": "string"
+                },
+                "longitude":{
+                  "description": "Name of the resource that has this actions",
+                  "type": "string"
+                },
+                "latitude":{
+                  "description": "Name of the resource that has this actions",
+                  "type": "string"
+                },
+                "mobile":{
+                  "description": "Name of the resource that has this actions",
+                  "type": "string"
+                },
+                "trackingnumber":{
+                  "description": "Name of the resource that has this actions",
+                  "type": "string"
+                }
+                
+              },
+              "required": [
+                "fleetname",
+                "fleetinfo",
+                "trackingnumber"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New fleet is created",
+            "schema": {
+              "$ref": "#/definitions/Fleet"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["fleet"],
+        "summary": "Fetch all fleet in the system",
+        "description": "Fetch all fleet in system",
+        "operationId": "getAllfleets",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [ 
+          {  
+            "name":"pagesize",
+            "in":"query",
+            "description":"This is pagesize:  Example=10, 20 etc.",
+            "required":true,
+            "type":"number"
+         },
+         {  
+            "name":"pagenumber",
+            "in":"query",
+            "description":"The fleet pagenumber that needs to be fetched. Example=1,2 etc.",
+            "required":true,
+            "type":"number"
+         }
+        ],
+        "responses": {
+          "200": {
+            "description": "All fleet fetched",
+            "schema": {
+              "$ref": "#/definitions/Fleet"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    },
+    "/fleet/{fleetId}": {
+      "put": {
+        "tags": ["fleet"],
+        "summary": "Update fleet to the system",
+        "description": "Update user fleet in system",
+        "operationId": "updatefleet",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fleetId",
+            "description": "Enter fleet id",
+            "required": true,
+            "type":"string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enter fleet details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fleetname": {
+                  "description": "Enter name of the fleet",
+                  "type": "string"
+                },
+                "fleetinfo": {
+                  "description": "Enter the description of the fleet",
+                  "type": "string"
+                },
+                "trackingnumber":{
+                  "description": "Name of the resource that has this actions",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "fleetname",
+                "fleetinfo",
+                "trackingnumber"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "fleet is updated",
+            "schema": {
+              "$ref": "#/definitions/Fleet"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "get": {
+        "tags": ["fleet"],
+        "summary": "Fetch a fleet in the system",
+        "description": "Fetch a fleet in system",
+        "operationId": "getSinglefleet",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "fleetId",
+            "description": "Enter fleet id",
+            "required": true,
+            "type":"string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All fleet fetched",
+            "schema": {
+              "$ref": "#/definitions/Fleet"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["fleet"],
+        "summary": "Delete a fleet in the system",
+        "description": "Delete a fleet in system",
+        "operationId": "deletefleets",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "fleetId",
+            "name": "path",
+            "description": "Enter fleet id",
+            "required": true,
+            "type":"string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All fleet fetched",
+            "schema": {
+              "$ref": "#/definitions/Fleet"
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    } 
   },
   "definitions": {
       "ServerInfo": {

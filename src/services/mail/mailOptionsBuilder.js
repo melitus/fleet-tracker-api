@@ -2,10 +2,9 @@ const mjml2html = require('mjml')
 
 const credentials = require('../../config/credentials')
 const registrationTemplate = require('../../templates/email/accountverification')
-const resetPasswordTemplate = require('../../templates/email/resetpassword')
 
 const client = require('../../config/client')
-const msgs = require('../../messages/msgs')
+const msgs = require('../../messages/messages')
 
 const __mailerOptionsAcountVerification = (hash, data, options) => {
   // const companyLogo = client.logoUrl

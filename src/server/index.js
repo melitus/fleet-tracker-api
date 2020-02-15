@@ -2,7 +2,7 @@ const winston = require('winston');
 const express = require('express')
 
 const { appKey } = require('../config/credentials');
-const appInitLoader = require('../loaders');
+const {appInitLoader} = require('../loaders');
 const app = express()
 
 appInitLoader(app)

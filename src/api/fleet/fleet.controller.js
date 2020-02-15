@@ -1,15 +1,14 @@
-import FleetService from './fleet.service'
+const FleetService = require('./fleet.service')
 const {
   onFailure,
   onSuccess,
   onCreated,
   onNotFoundError,
   generateHATEOASLink
-} = require('../../manager/responseManager')
+} = require('../../responses')
 const message = require('../../messages/messages')
 
-module.exports = {
-  fleetByID: async (req, res, next) => {
+  exports.fleetByID = async (req, res, next) => {
     try {
       const { fleetId } = req.params
       const fleet = await FleetService.getSinglefleet(fleetId)
@@ -18,14 +17,14 @@ module.exports = {
     } catch (error) {
       onFailure(res, error, message.fleet_get_failure)
     }
-  },
-  getSinglefleet: (req, res) => {
+  }
+  exports.getSinglefleet = (req, res) => {
     const fleet = req.fleet
     let hateosLinks = [generateHATEOASLink(req.baseUrl, 'GET', 'fleet')]
     onSuccess(res, fleet, message.fleet_get_success, hateosLinks)
-  },
+  }
 
-  getAllfleets: async (req, res, next) => {
+  exports.getAllfleets = async (req, res, next) => {
     try {
       let query = req.query
       const results = await FleetService.getfleets(query)
@@ -33,9 +32,9 @@ module.exports = {
     } catch (error) {
       onFailure(res, error, message.fleet_getAll_failure)
     }
-  },
+  }
 
-  addfleet: async (req, res, next) => {
+  exports.addfleet = async (req, res, next) => {
     try {
       const incommingfleetData = req.body
       const savedfleet = await FleetService.addfleet(incommingfleetData)
@@ -43,9 +42,9 @@ module.exports = {
     } catch (error) {
       onFailure(res, error, message.fleet_create_failure)
     }
-  },
+  }
 
-  updatefleet: async (req, res, next) => {
+  exports.updatefleet = async (req, res, next) => {
     try {
       const { fleetId } = req.params
       const incommingfleetData = req.body
@@ -60,9 +59,9 @@ module.exports = {
     } catch (error) {
       onFailure(res, error, message.fleet_update_failure)
     }
-  },
+  }
 
-  deletefleets: async (req, res, next) => {
+  exports.deletefleets = async (req, res, next) => {
     try {
       const { fleetId } = req.params
       const deletedfleet = await FleetService.deletefleet(fleetId)
@@ -74,4 +73,4 @@ module.exports = {
       onFailure(res, error, message.fleet_delete_failure)
     }
   }
-}
+

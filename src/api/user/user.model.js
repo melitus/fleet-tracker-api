@@ -5,8 +5,8 @@ const moment = require('moment-timezone');
 const jwt = require('jwt-simple');
 const uuidv4 = require('uuid/v4');
 
-const APIError = require('../utils/APIError');
-const { appKey } = require("../config/credentials");
+const APIError = require('../../utils/APIError');
+const { appKey } = require("../../config/credentials");
 const { generatePasswordHash} = require( '../../policies/authstrategy/authmanager')
 
 // User Roles

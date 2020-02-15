@@ -1,6 +1,5 @@
 const otplib = require('otplib')
 const PhoneNumber = require('awesome-phonenumber')
-const authenticator = require('otplib/authenticator')
 
 const secret = otplib.authenticator.generateSecret()
 

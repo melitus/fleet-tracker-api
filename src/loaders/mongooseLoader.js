@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const logger = require('../config/logger').db
 
 const config = require('../config/credentials')

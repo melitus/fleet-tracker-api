@@ -1,3 +1,12 @@
+const path = require('path')
+
+// import .env variables
+require('dotenv-safe').load({
+  path: path.join(__dirname, '../../.env'),
+  sample: path.join(__dirname, '../../.env.example'),
+  allowEmptyValues: true
+})
+
 
 module.exports = {
   email: {
@@ -29,7 +38,9 @@ module.exports = {
     logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   },
   sendVerificationMail: true,
-  sendVerificationSms: true
-  };
+  sendVerificationSms: true,
 
-
+  apiKey: process.env.SMS_API_KEY,
+  username: process.env.SMS_USERNAME,
+  format: process.env.SMS_FORMAT
+}

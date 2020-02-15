@@ -9,7 +9,7 @@ const basicResponse = {
   links:[]
 }
 
-export const onFailure = (res, error, message, data = '', links = []) => {
+exports.onFailure = (res, error, message, data = '', links = []) => {
   let response = Object.assign({}, basicResponse)
   response.success = false
   response.message = message
@@ -23,7 +23,7 @@ export const onFailure = (res, error, message, data = '', links = []) => {
   }
 }
 
-export const onSuccess = (res, data = '', message = '', links = []) => {
+exports.onSuccess = (res, data = '', message = '', links = []) => {
   let response = Object.assign({}, basicResponse)
   response.success = true
   response.message = message
@@ -33,7 +33,7 @@ export const onSuccess = (res, data = '', message = '', links = []) => {
   return res.status(httpStatus.OK).json(response)
 }
 
-export const onCreated = (res, data = '', message = '', links = []) => {
+exports.onCreated = (res, data = '', message = '', links = []) => {
   let response = Object.assign({}, basicResponse)
   response.success = true
   response.message = message
@@ -43,7 +43,7 @@ export const onCreated = (res, data = '', message = '', links = []) => {
   return res.status(httpStatus.CREATED).json(response)
 }
 
-export const onNotFoundError = (res, data, message = '', links = '') => {
+exports.onNotFoundError = (res, data, message = '', links = '') => {
   if (!data) {
     let response = Object.assign({}, basicResponse)
     response.success = true
@@ -55,7 +55,7 @@ export const onNotFoundError = (res, data, message = '', links = '') => {
   }
 }
 
-export const generateHATEOASLink = (link, method, rel) => {
+exports.generateHATEOASLink = (link, method, rel) => {
   return {
     link: link,
     method: method,

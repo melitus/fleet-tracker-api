@@ -1,7 +1,7 @@
-const User = require( '../user/user.model')
+const User = require( './user.model')
 const OTPWrapper = require( '../../services/otp/otpWrapper')
 const { sendSMS } = require( '../../services/sms/AfricasTalkingGateway')
-const { resendEmailVerification } = require( './verification.controller')
+const { resendEmailVerification } = require( '../verification/verification.controller')
 const { dispatch }= require( '../../eventBus/eventBus')
 const { generateTokenResponse} = require( '../../policies/authstrategy/authmanager')
 

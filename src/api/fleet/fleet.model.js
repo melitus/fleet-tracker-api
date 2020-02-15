@@ -35,11 +35,6 @@ const fleetSchema = new mongoose.Schema({
       type: String,
       trim: true,
     },
-  category: {
-    type: String,
-    enum: categories,
-    default: "car"
-  },
   trackingnumber: {
     type: String,
     default: uuidv4(),

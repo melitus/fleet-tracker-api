@@ -1,9 +1,9 @@
 /* eslint-disable prefer-promise-reject-errors */
-import * as mongoose from 'mongoose'
+const  mongoose = require('mongoose')
 
-import FleetModel from './fleet.model'
+const FleetModel = require('./fleet.model')
 
-export const getSingleFleet = async fleetId => {
+exports.getSingleFleet = async fleetId => {
   if (!mongoose.Types.ObjectId.isValid(fleetId)) {
     return Promise.reject('Invalid identifier')
   }
@@ -11,7 +11,7 @@ export const getSingleFleet = async fleetId => {
   return fleet
 }
 
-export const getFleets = async (params) => {
+exports.getFleets = async (params) => {
   let pageNumber = parseInt(params.pagenumber)
   const pageSize = parseInt(params.pagesize)
   const searchQuery = {}
@@ -34,19 +34,19 @@ const fleetsCount = async () => {
     .exec()
   return allFleetsCount
 }
-export const addFleet = async (fleetData) => {
+exports.addFleet = async (fleetData) => {
   const newFleet = new FleetModel(fleetData)
   const savedFleet = await newFleet.save()
   return savedFleet
 }
-export const updateFleet = async (fleetId, fleetData) => {
+exports.updateFleet = async (fleetId, fleetData) => {
   if (!mongoose.Types.ObjectId.isValid(fleetId)) {
     return Promise.reject('Invalid identifier')
   }
   const updatedFleet = await FleetModel.findByIdAndUpdate(fleetId, fleetData)
   return updatedFleet
 }
-export const deleteBrand = async (fleetId) => {
+exports.deleteBrand = async (fleetId) => {
   if (!mongoose.Types.ObjectId.isValid(fleetId)) {
     return Promise.reject('Invalid identifier')
   }

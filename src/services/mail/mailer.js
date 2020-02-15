@@ -11,7 +11,7 @@ const getSmtp = () => {
   return smtp
 }
 
-const sendMail = (smtp, message) => {
+const prepareToSendEmail = (smtp, message) => {
   return new Promise((resolve, reject) => {
     if (!message.to.includes('@')) {
       reject('Invalid email address')
@@ -31,7 +31,7 @@ const sendMail = (smtp, message) => {
 const send = async message => {
   const smtp = getSmtp()
   try {
-    const result = await sendMail(smtp, message)
+    const result = await prepareToSendEmail(smtp, message)
     logger.info('Email sent', result)
     return true
   } catch (e) {

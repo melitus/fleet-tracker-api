@@ -1,9 +1,11 @@
-const authRoutes = require('../api/auth')
-const fleetRoutes = require('../api/user')
-const appRoutes = require('../api/app')
+const { Router } = require('express');
 
-exports.processApiEndpoints = apiRouter => {
-  apiRouter.use('/app', appRoutes)
-  apiRouter.use('/auth', authRoutes)
-  apiRouter.use('/fleet', fleetRoutes)
-  }
+const userRoutes = require('../api/user')
+const fleetRoutes = require('../api/fleet')
+
+const apiRouter = Router()
+
+apiRouter.use('/user', userRoutes)
+apiRouter.use('/fleet', fleetRoutes)
+  
+module.exports = apiRouter

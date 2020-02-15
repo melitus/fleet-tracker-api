@@ -6,13 +6,13 @@ const validate = require('../../middlewares/validation')
 module.exports = router => {
   router
     .route('/')
-    .get(authorize(ADMIN), fleetController.getBrands)
-    .post(authorize(ADMIN),validate.validateBodySchema(createFleet), fleetController.createBrand)
+    .get(authorize(ADMIN), fleetController.getAllfleets)
+    .post(authorize(ADMIN),validate.validateBodySchema(createFleet), fleetController.createFleet)
   router
     .route('/:fleetId')
-    .get(authorize(ADMIN), fleetController.getOneBrand)
-    .put(authorize(ADMIN), authorize(ADMIN),validate.validateBodySchema(updateFleet), fleetController.updateBrand)
-    .delete(authorize(ADMIN), fleetController.deleteBrandById)
+    .get(authorize(ADMIN), fleetController.getSinglefleet)
+    .put(authorize(ADMIN), authorize(ADMIN),validate.validateBodySchema(updateFleet), fleetController.updatefleet)
+    .delete(authorize(ADMIN), fleetController.deletefleets)
 
   // Finish by binding the products middleware
   router.param('fleetId', fleetController.load)
