@@ -9,7 +9,6 @@ mongoose.Promise = require('bluebird')
 mongoose.set('useNewUrlParser', true)
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
-mongoose.set('debugger', true)
 
 if (config.env === 'dev') {
   mongoose.set('debug', true)
