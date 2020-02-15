@@ -1,89 +1,97 @@
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
-const { omitBy, isNil } = require('lodash');
-const uuidv4 = require('uuid/v4');
+const mongoose = require('mongoose')
+const httpStatus = require('http-status')
+const { omitBy, isNil } = require('lodash')
+const uuidv4 = require('uuid/v4')
 
 // Fleet Categories
-const categories = ["car", "truck"];
+const categories = ['car', 'truck']
 
 // Fleet Schema
- 
-const fleetSchema = new mongoose.Schema({
-  fleetname: {
-    type: String,
-    maxlength: 128,
-    index: true,
-    trim: true,
-  },
-  fleetinfo: {
-    type: String,
-    maxlength: 128,
-    index: true,
-    trim: true,
-  },
-  contactname: {
+
+const fleetSchema = new mongoose.Schema(
+  {
+    fleetname: {
+      type: String,
+      maxlength: 128,
+      index: true,
+      trim: true
+    },
+    fleetinfo: {
+      type: String,
+      maxlength: 128,
+      index: true,
+      trim: true
+    },
+    contactname: {
       type: String,
       trim: true
     },
     longitude: {
-      type: Number,
+      type: Number
     },
     latitude: {
-      type: Number,
+      type: Number
     },
     mobile: {
       type: String,
-      trim: true,
+      trim: true
     },
-  trackingnumber: {
-    type: String,
-    default: uuidv4(),
+    trackingnumber: {
+      type: String,
+      default: uuidv4()
+    }
   },
-}, {
-  timestamps: true,
-});
+  {
+    timestamps: true
+  }
+)
 
 /**
  * Methods
  */
 fleetSchema.method({
-  
   transform() {
-    const transformed = {};
-    const fields = ['id','fleetname', 'fleetinfo', 'contactname', 'category','trackingnumber'];
+    const transformed = {}
+    const fields = [
+      'id',
+      'fleetname',
+      'fleetinfo',
+      'contactname',
+      'category',
+      'trackingnumber'
+    ]
 
-    fields.forEach((field) => {
-      transformed[field] = this[field];
-    });
+    fields.forEach(field => {
+      transformed[field] = this[field]
+    })
 
-    return transformed;
-  },
-});
+    return transformed
+  }
+})
 
 /**
  * Statics
  */
 fleetSchema.statics = {
-
   // Get fleet
-   
+
   async get(id) {
     try {
-      let fleet;
+      let fleet
 
       if (mongoose.Types.ObjectId.isValid(id)) {
-        fleet = await this.findById(id).exec();
+        fleet = await this.findById(id).exec()
       }
       if (fleet) {
-        return fleet;
+        return fleet
       }
 
       throw new APIError({
         message: 'fleet does not exist',
-        status: httpStatus.NOT_FOUND,
-      });
+        status: httpStatus.NOT_FOUND
+      })
     } catch (error) {
-      throw error;
+      throw error
     }
   },
 
@@ -96,17 +104,19 @@ fleetSchema.statics = {
     fleetinfo,
     contactname,
     category,
-    trackingnumber,
+    trackingnumber
   }) {
-    const options = omitBy({  fleetname, fleetinfo,contactname, category, trackingnumber }, isNil);
+    const options = omitBy(
+      { fleetname, fleetinfo, contactname, category, trackingnumber },
+      isNil
+    )
 
     return this.find(options)
       .sort({ createdAt: -1 })
       .skip(perPage * (page - 1))
       .limit(perPage)
-      .exec();
-  }, 
-  
-};
+      .exec()
+  }
+}
 
-module.exports = mongoose.model('Fleet', fleetSchema);
+module.exports = mongoose.model('Fleet', fleetSchema)

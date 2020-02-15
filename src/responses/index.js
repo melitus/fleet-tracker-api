@@ -1,4 +1,4 @@
-const httpStatus =  require('http-status')
+const httpStatus = require('http-status')
 
 const logger = require('../config/logger')
 
@@ -6,7 +6,7 @@ const basicResponse = {
   success: false,
   message: '',
   data: {},
-  links:[]
+  links: []
 }
 
 exports.onFailure = (res, error, message, data = '', links = []) => {
@@ -17,9 +17,7 @@ exports.onFailure = (res, error, message, data = '', links = []) => {
   response.links = links
   if (error) {
     logger.error('Bad Request', response)
-    return res
-      .status(error.status || httpStatus.BAD_REQUEST)
-      .json(response)
+    return res.status(error.status || httpStatus.BAD_REQUEST).json(response)
   }
 }
 

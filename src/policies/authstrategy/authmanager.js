@@ -1,14 +1,13 @@
-const moment = require( 'moment-timezone')
-const bcrypt = require( 'bcryptjs')
+const moment = require('moment-timezone')
+const bcrypt = require('bcryptjs')
 const passport = require('passport')
 
-const { appKey } = require( '../../config/credentials')
-const RefreshToken = require( '../../api/refreshToken/refreshToken.model')
+const { appKey } = require('../../config/credentials')
+const RefreshToken = require('../../api/refreshToken/refreshToken.model')
 
 let issueExpiresDate = moment().add(appKey.jwtExpirationInterval, 'minutes')
 
-
-exports.generatePasswordHash = async (password) =>{
+exports.generatePasswordHash = async password => {
   const saltRounds = 10
   const hashedPassword = await bcrypt.hash(password, saltRounds)
   return hashedPassword
@@ -19,7 +18,7 @@ exports.passwordMatches = async (plainPassword, hashedPassword) => {
   return isPasswordEqual
 }
 
-exports.generateTokenResponse = (user, accessToken) =>{
+exports.generateTokenResponse = (user, accessToken) => {
   const tokenType = 'Bearer'
   const refreshToken = RefreshToken.generate(user).token
   return {
@@ -32,4 +31,4 @@ exports.generateTokenResponse = (user, accessToken) =>{
 
 exports.providePassport = () => {
   return passport
-} 
+}

@@ -25,5 +25,5 @@ const __mailerOptionsAcountVerification = (hash, data, options) => {
 }
 
 module.exports = {
-  __mailerOptionsAcountVerification,
+  __mailerOptionsAcountVerification
 }

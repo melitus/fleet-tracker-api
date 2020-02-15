@@ -7,11 +7,20 @@ module.exports = router => {
   router
     .route('/')
     .get(authorize(ADMIN), fleetController.getAllfleets)
-    .post(authorize(ADMIN),validate.validateBodySchema(createFleet), fleetController.createFleet)
+    .post(
+      authorize(ADMIN),
+      validate.validateBodySchema(createFleet),
+      fleetController.createFleet
+    )
   router
     .route('/:fleetId')
     .get(authorize(ADMIN), fleetController.getSinglefleet)
-    .put(authorize(ADMIN), authorize(ADMIN),validate.validateBodySchema(updateFleet), fleetController.updatefleet)
+    .put(
+      authorize(ADMIN),
+      authorize(ADMIN),
+      validate.validateBodySchema(updateFleet),
+      fleetController.updatefleet
+    )
     .delete(authorize(ADMIN), fleetController.deletefleets)
 
   // Finish by binding the products middleware

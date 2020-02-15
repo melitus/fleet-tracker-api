@@ -22,7 +22,7 @@ const registration = function(companyLogo, name, verificationUrl) {
 			</mj-section>
 		</mj-body>
 		</mjml>
-		`;
-};
+		`
+}
 
-module.exports = registration;
+module.exports = registration

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
-const  mongoose = require('mongoose')
+const mongoose = require('mongoose')
 
 const FleetModel = require('./fleet.model')
 
@@ -11,7 +11,7 @@ exports.getSingleFleet = async fleetId => {
   return fleet
 }
 
-exports.getFleets = async (params) => {
+exports.getFleets = async params => {
   let pageNumber = parseInt(params.pagenumber)
   const pageSize = parseInt(params.pagesize)
   const searchQuery = {}
@@ -34,7 +34,7 @@ const fleetsCount = async () => {
     .exec()
   return allFleetsCount
 }
-exports.addFleet = async (fleetData) => {
+exports.addFleet = async fleetData => {
   const newFleet = new FleetModel(fleetData)
   const savedFleet = await newFleet.save()
   return savedFleet
@@ -46,7 +46,7 @@ exports.updateFleet = async (fleetId, fleetData) => {
   const updatedFleet = await FleetModel.findByIdAndUpdate(fleetId, fleetData)
   return updatedFleet
 }
-exports.deleteBrand = async (fleetId) => {
+exports.deleteBrand = async fleetId => {
   if (!mongoose.Types.ObjectId.isValid(fleetId)) {
     return Promise.reject('Invalid identifier')
   }
